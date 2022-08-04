@@ -4,21 +4,19 @@ import java.time.LocalDateTime;
 
 
 public class ConcatString {
+
     public String concat(String str1, String str2) {
             checkEmptyOrNullCase(str1,str2);
             return str1 + " " + str2;
     }
 
     public int countSymbols(String str1) {
-        int count = 0;
         if (str1 == null || str1.isEmpty()) {
             throw new NullStringInputException("Строка пустая");
         }
+
         str1 = str1.replace(" ", "");
-        for (int i = 0; i < str1.length(); i++) {
-            count++;
-        }
-        return count;
+        return str1.length();
     }
 
     public boolean equals(String str1, String str2) {
