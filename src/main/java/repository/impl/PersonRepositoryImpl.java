@@ -6,14 +6,20 @@ import repository.PersonRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 public class PersonRepositoryImpl implements PersonRepository {
     private final List<Person> personList = new ArrayList<>();
 
     @Override
-    public void add(Person person) {
-        personList.add(Math.toIntExact(person.getId()),person);
+    public void save(Person person) {
+        boolean isPresent = personList.stream().anyMatch(person1 -> person1.getId().equals(person.getId()));
+        if (isPresent) {
+            throw new RuntimeException("Человек с таким id уже есть");
+        } else {
+            personList.add(person);
+        }
     }
 
     @Override
@@ -22,36 +28,26 @@ public class PersonRepositoryImpl implements PersonRepository {
     }
 
     @Override
-    public int numberOfRecords() {
+    public int size() {
         return personList.size();
     }
 
     @Override
-    public void searchPersonByID(Long id) {
-        Optional<Person> matchingObject = personList.stream().
-                filter(p -> p.getId()==id).
-                findFirst();
-        System.out.println(matchingObject);
+    public Optional<Person> findById(Long id) {
+        return personList.stream().
+                filter(person ->
+                        person.getId().equals(id)).findFirst();
     }
 
     @Override
-    public void searchPersonBySecondName(String secondName) {
-        Optional<Person> matchingObject = personList.stream().
-                filter(p -> p.getSecondName().equals(secondName)).
-                findFirst();
-        System.out.println(matchingObject);
+    public List<Person> findBySecondName(String secondName) {
+        return personList
+                .stream()
+                .filter(person -> person.getLastName().equals(secondName))
+                .collect(Collectors.toList());
     }
 
-    @Override
-    public void searchByAllFields(String firstName, String secondName, int age, String sex, Long id) {
-        Optional<Person> matchingObject = personList.stream().
-                filter(p -> p.getFirstName().equals(firstName) && p.getSecondName().equals(secondName) && p.getAge() == age && p.getSex().equals(sex) && p.getId() == id).
-                findFirst();
-        System.out.println(matchingObject);
-    }
-
-
-    public List<Person> getPersonList() {
+    public List<Person> findAll() {
         return personList;
     }
 }
