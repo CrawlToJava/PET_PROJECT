@@ -7,10 +7,10 @@ public class Person {
     private String firstName;
     private String secondName;
     private int age;
-    private String sex;
+    private Sex sex;
     private Long id;
 
-    public Person(String firstName, String secondName, int age, String sex,Long id) {
+    public Person(String firstName, String secondName, int age, Sex sex, Long id) {
         this.firstName = firstName;
         this.secondName = secondName;
         this.age = age;
@@ -46,15 +46,15 @@ public class Person {
         this.age = age;
     }
 
-    public String getSex() {
+    public Sex getSex() {
         return sex;
     }
 
-    public void setSex(String sex) {
+    public void setSex(Sex sex) {
         this.sex = sex;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -74,7 +74,7 @@ public class Person {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Person person = (Person) o;
-        return age == person.age && Objects.equals(firstName, person.firstName) && Objects.equals(secondName, person.secondName) && Objects.equals(sex, person.sex) && Objects.equals(id, person.id);
+        return  Objects.equals(id, person.id);
     }
 
     @Override

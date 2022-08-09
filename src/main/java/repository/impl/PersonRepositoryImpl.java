@@ -43,7 +43,7 @@ public class PersonRepositoryImpl implements PersonRepository {
     public List<Person> findBySecondName(String secondName) {
         return personList
                 .stream()
-                .filter(person -> person.getLastName().equals(secondName))
+                .filter(person -> person.getSecondName().equals(secondName))
                 .collect(Collectors.toList());
     }
 
