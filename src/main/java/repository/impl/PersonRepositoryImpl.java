@@ -1,6 +1,7 @@
 package repository.impl;
 
 import entity.Person;
+import exceptions.NoSuchElementException;
 import repository.PersonRepository;
 
 import java.util.ArrayList;
@@ -14,8 +15,7 @@ public class PersonRepositoryImpl implements PersonRepository {
 
     @Override
     public void save(Person person) {
-        boolean isPresent = personList.stream().anyMatch(person1 -> person1.getId().equals(person.getId()));
-        if (isPresent) {
+        if (isPresent(personList, person.getId())) {
             throw new RuntimeException("Человек с таким id уже есть");
         } else {
             personList.add(person);
@@ -45,6 +45,23 @@ public class PersonRepositoryImpl implements PersonRepository {
                 .stream()
                 .filter(person -> person.getSecondName().equals(secondName))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void update(Long id, Person person) {
+        if (isPresent(personList, id)) {
+            Person updatedPerson = personList.get(Math.toIntExact(id));
+            updatedPerson.setFirstName(person.getFirstName());
+            updatedPerson.setSecondName(person.getSecondName());
+            updatedPerson.setAge(person.getAge());
+            updatedPerson.setSex(person.getSex());
+        } else {
+            throw new NoSuchElementException("Человек не найден");
+        }
+    }
+
+    public boolean isPresent(List<Person> personList, Long id) {
+        return personList.stream().anyMatch(p -> p.getId().equals(id));
     }
 
     public List<Person> findAll() {

@@ -13,6 +13,8 @@ public interface PersonRepository {
 
     int size();
 
+    void update(Long id, Person person);
+
     Optional<Person> findById(Long id);
 
     List<Person> findAll();
