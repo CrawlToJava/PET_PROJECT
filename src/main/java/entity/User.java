@@ -1,16 +1,18 @@
 package entity;
 
 
+
+
 import java.util.Objects;
 
-public class Person {
+public class User {
     private String firstName;
     private String secondName;
     private int age;
     private Sex sex;
     private Long id;
 
-    public Person(String firstName, String secondName, int age, Sex sex, Long id) {
+    public User(String firstName, String secondName, int age, Sex sex, Long id) {
         this.firstName = firstName;
         this.secondName = secondName;
         this.age = age;
@@ -18,7 +20,7 @@ public class Person {
         this.id = id;
     }
 
-    public Person() {
+    public User() {
 
     }
 
@@ -73,7 +75,7 @@ public class Person {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Person person = (Person) o;
+        User person = (User) o;
         return  Objects.equals(id, person.id);
     }
 
