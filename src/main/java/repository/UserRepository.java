@@ -1,23 +1,21 @@
 package repository;
 
-import entity.User;
+import entity.Users;
 
 
 import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository {
-    void save(User user);
+    void save(Users users);
 
     void delete(Long id);
 
-    int size();
+    void update(Long id, Users users);
 
-    void update(Long id, User user);
+    Optional<Users> findById(Long id);
 
-    Optional<User> findById(Long id);
+    List<Users> findAll();
 
-    List<User> findAll();
-
-    List<User> findBySecondName(String secondName);
+    List<Users> findBySecondName(String secondName);
 }

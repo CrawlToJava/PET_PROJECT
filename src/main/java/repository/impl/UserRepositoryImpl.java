@@ -1,6 +1,6 @@
 package repository.impl;
 
-import entity.User;
+import entity.Users;
 import exceptions.NoSuchElementException;
 import repository.UserRepository;
 
@@ -11,14 +11,14 @@ import java.util.stream.Collectors;
 
 
 public class UserRepositoryImpl implements UserRepository {
-    private final List<User> users = new ArrayList<>();
+    private final List<Users> users = new ArrayList<>();
 
     @Override
-    public void save(User user) {
-        if (isPresent(users, user.getId())) {
+    public void save(Users users) {
+        if (isPresent(this.users, users.getId())) {
             throw new RuntimeException("Человек с таким id уже есть");
         } else {
-            users.add(user);
+            this.users.add(users);
         }
     }
 
@@ -28,42 +28,35 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public int size() {
-        return users.size();
-    }
-
-    @Override
-    public Optional<User> findById(Long id) {
+    public Optional<Users> findById(Long id) {
         return users.stream().
                 filter(user ->
                         user.getId().equals(id)).findFirst();
     }
 
-
-
     @Override
-    public void update(Long id, User user) {
-        if (isPresent(users, id)) {
-            User updatedPerson = users.get(Math.toIntExact(id));
-            updatedPerson.setFirstName(user.getFirstName());
-            updatedPerson.setSecondName(user.getSecondName());
-            updatedPerson.setAge(user.getAge());
-            updatedPerson.setSex(user.getSex());
+    public void update(Long id, Users users) {
+        if (isPresent(this.users, id)) {
+            Users updatedPerson = this.users.get(Math.toIntExact(id));
+            updatedPerson.setFirstName(users.getFirstName());
+            updatedPerson.setSecondName(users.getSecondName());
+            updatedPerson.setAge(users.getAge());
+            updatedPerson.setSex(users.getSex());
         } else {
             throw new NoSuchElementException("Человек не найден");
         }
     }
 
-    public boolean isPresent(List<User> userList, Long id) {
-        return userList.stream().anyMatch(u -> u.getId().equals(id));
+    public boolean isPresent(List<Users> usersList, Long id) {
+        return usersList.stream().anyMatch(u -> u.getId().equals(id));
     }
 
-    public List<User> findAll() {
+    public List<Users> findAll() {
         return users;
     }
 
     @Override
-    public List<User> findBySecondName(String secondName) {
+    public List<Users> findBySecondName(String secondName) {
         return users.stream().filter(user -> user.getSecondName().equals(secondName)).collect(Collectors.toList());
     }
 }
