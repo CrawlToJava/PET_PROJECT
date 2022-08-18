@@ -39,8 +39,6 @@ public class UserRepositoryImpl implements UserRepository {
                         user.getId().equals(id)).findFirst();
     }
 
-
-
     @Override
     public void update(Long id, User user) {
         if (isPresent(users, id)) {
