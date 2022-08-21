@@ -26,11 +26,6 @@ public class OrdersRepositoryImpl implements OrdersRepository {
     }
 
     @Override
-    public int size() {
-        return orders.size();
-    }
-
-    @Override
     public Optional<Orders> findById(Long id) {
         return orders.stream().
                 filter(user ->
