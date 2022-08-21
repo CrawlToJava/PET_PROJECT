@@ -21,7 +21,7 @@ public class Test {
         System.out.println(ordersService.getOrdersRepository().findAll());
         System.out.println(ordersService.getRentalPointsRepository().findAll());
         System.out.println(ordersService.getScootersRepository().findAll());
-        ordersService.rent(0L, 0L, 0L, 0L);
+        ordersService.startRent(0L, 0L, 0L, 0L);
         System.out.println(orders.getOrdersStatus());
         System.out.println(scooter.getScootersStatus());
         ordersService.finishRent(0L, 0L);
@@ -30,7 +30,6 @@ public class Test {
         System.out.println(orders.getOrdersStatus());
         System.out.println(orders.getOrderedAt());
         System.out.println(orders.getFinishedAt());
-
 
     }
 

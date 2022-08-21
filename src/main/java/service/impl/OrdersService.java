@@ -32,7 +32,7 @@ public class OrdersService implements Renter, PriceCounter {
 
     @SneakyThrows
     @Override
-    public void rent(Long scootersId, Long ordersId, Long userId, Long rentalPointsId) {
+    public void startRent(Long scootersId, Long ordersId, Long userId, Long rentalPointsId) {
         Optional<Scooters> scootersOptional = scootersRepository.findById(scootersId);
         Scooters scooters = scootersOptional.orElseThrow();
         Optional<Orders> ordersOptional = ordersRepository.findById(ordersId);
@@ -53,7 +53,7 @@ public class OrdersService implements Renter, PriceCounter {
         Scooters scooters = scootersOptional.orElseThrow();
         Optional<Orders> ordersOptional = ordersRepository.findById(ordersId);
         Orders orders = ordersOptional.orElseThrow();
-        Valid.isCloseAvailable(scooters);
+        Valid.isFinishRentAvailable(scooters);
         scooters.setScootersStatus(ScootersStatus.AVAILABLE);
         orders.setOrdersStatus(OrdersStatus.CLOSE);
         orders.setFinishedAt(LocalDateTime.now());
