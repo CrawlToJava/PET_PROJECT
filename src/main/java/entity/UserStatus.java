@@ -1,5 +1,5 @@
 package entity;
 
-public enum UsersStatus {
+public enum UserStatus {
     BLOCKED, FRIENDLY, DELETED
 }

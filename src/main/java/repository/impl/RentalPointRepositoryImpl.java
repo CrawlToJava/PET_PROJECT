@@ -1,18 +1,18 @@
 package repository.impl;
 
-import entity.RentalPoints;
-import repository.RentalPointsRepository;
+import entity.RentalPoint;
+import repository.RentalPointRepository;
 import exceptions.NoSuchElementException;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class RentalPointsRepositoryImpl implements RentalPointsRepository {
-    private final List<RentalPoints> list = new ArrayList<>();
+public class RentalPointRepositoryImpl implements RentalPointRepository {
+    private final List<RentalPoint> list = new ArrayList<>();
 
     @Override
-    public void save(RentalPoints rentalPoint) {
+    public void save(RentalPoint rentalPoint) {
         if (isPresent(list,rentalPoint.getId())) {
             throw new RuntimeException("Точка проката с таким id уже есть");
         } else {
@@ -26,9 +26,9 @@ public class RentalPointsRepositoryImpl implements RentalPointsRepository {
     }
 
     @Override
-    public void update(Long id, RentalPoints rentalPoint) {
+    public void update(Long id, RentalPoint rentalPoint) {
         if (isPresent(list, id)) {
-            RentalPoints updatedRentalPoint = list.get(Math.toIntExact(id));
+            RentalPoint updatedRentalPoint = list.get(Math.toIntExact(id));
             updatedRentalPoint.setRentalPointsStatus(rentalPoint.getRentalPointsStatus());
             updatedRentalPoint.setLocation(rentalPoint.getLocation());
         } else {
@@ -37,18 +37,18 @@ public class RentalPointsRepositoryImpl implements RentalPointsRepository {
     }
 
     @Override
-    public Optional<RentalPoints> findById(Long id) {
+    public Optional<RentalPoint> findById(Long id) {
         return list.stream().
                 filter(user ->
                         user.getId().equals(id)).findFirst();
     }
 
     @Override
-    public List<RentalPoints> findAll() {
+    public List<RentalPoint> findAll() {
         return list;
     }
 
-    public boolean isPresent(List<RentalPoints> pointsList, Long id) {
+    public boolean isPresent(List<RentalPoint> pointsList, Long id) {
         return pointsList.stream().anyMatch(u -> u.getId().equals(id));
     }
 }

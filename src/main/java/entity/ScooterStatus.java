@@ -1,5 +1,5 @@
 package entity;
 
-public enum ScootersStatus {
+public enum ScooterStatus {
     AVAILABLE, BOOKED
 }

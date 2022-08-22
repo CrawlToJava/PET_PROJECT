@@ -11,21 +11,21 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = {"id"})
-public class Orders {
+public class Order {
     private Long id;
 
     private LocalDateTime orderedAt;
 
     private LocalDateTime finishedAt;
 
-    private Double totalPrice;
+    private double totalPrice;
 
-    private OrdersStatus ordersStatus;
+    private OrderStatus orderStatus;
 
-    private Users users;
+    private User user;
 
-    private Scooters scooters;
+    private Scooter scooter;
 
-    private RentalPoints rentalPoints;
+    private RentalPoint rentalPoint;
 
 }

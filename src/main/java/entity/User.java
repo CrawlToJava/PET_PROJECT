@@ -6,7 +6,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = {"id"})
-public class Users {
+public class User {
 
     private Long id;
 
@@ -18,7 +18,7 @@ public class Users {
 
     private Sex sex;
 
-    private UsersStatus usersStatus;
+    private UserStatus userStatus;
 
 }
 

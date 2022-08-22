@@ -1,5 +1,5 @@
 package entity;
 
-public enum OrdersStatus {
+public enum OrderStatus {
     OPEN, CLOSE, DELETE
 }

@@ -9,20 +9,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = {"id"})
-public class Models {
+public class Scooter {
     private Long id;
 
-    private String brand;
+    private Double price;
 
-    private String model;
+    private Model model;
 
-    private Integer year;
+    private RentalPoint rentalPoint;
 
-    private Double maxLoad;
+    private ScooterStatus scooterStatus;
 
-    private Double range;
-
-    private Integer power;
-
+    private User user;
 
 }

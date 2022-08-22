@@ -1,19 +1,19 @@
 package repository.impl;
 
-import entity.Scooters;
-import repository.ScootersRepository;
+import entity.Scooter;
+import repository.ScooterRepository;
 import exceptions.NoSuchElementException;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class ScootersRepositoryImpl implements ScootersRepository {
+public class ScooterRepositoryImpl implements ScooterRepository {
 
-    private final List<Scooters> scooters = new ArrayList<>();
+    private final List<Scooter> scooters = new ArrayList<>();
 
     @Override
-    public void save(Scooters scooter) {
+    public void save(Scooter scooter) {
         if (isPresent(scooters, scooter.getId())) {
             throw new RuntimeException("Электросамокаи с таким id уже есть");
         } else {
@@ -27,13 +27,13 @@ public class ScootersRepositoryImpl implements ScootersRepository {
     }
 
     @Override
-    public void update(Long id, Scooters scooter) {
+    public void update(Long id, Scooter scooter) {
         if (isPresent(scooters, id)) {
-            Scooters updatedScooter = scooters.get(Math.toIntExact(id));
+            Scooter updatedScooter = scooters.get(Math.toIntExact(id));
             updatedScooter.setModel(scooter.getModel());
-            updatedScooter.setScootersStatus(scooter.getScootersStatus());
+            updatedScooter.setScooterStatus(scooter.getScooterStatus());
             updatedScooter.setPrice(scooter.getPrice());
-            updatedScooter.setUsers(scooter.getUsers());
+            updatedScooter.setUser(scooter.getUser());
             updatedScooter.setRentalPoint(scooter.getRentalPoint());
         } else {
             throw new NoSuchElementException("Электросамокат не найден");
@@ -41,18 +41,18 @@ public class ScootersRepositoryImpl implements ScootersRepository {
     }
 
     @Override
-    public Optional<Scooters> findById(Long id) {
+    public Optional<Scooter> findById(Long id) {
         return scooters.stream().
                 filter(user ->
                         user.getId().equals(id)).findFirst();
     }
 
     @Override
-    public List<Scooters> findAll() {
+    public List<Scooter> findAll() {
         return scooters;
     }
 
-    public boolean isPresent(List<Scooters> scootersList, Long id) {
-        return scootersList.stream().anyMatch(u -> u.getId().equals(id));
+    public boolean isPresent(List<Scooter> scooterList, Long id) {
+        return scooterList.stream().anyMatch(u -> u.getId().equals(id));
     }
 }

@@ -6,12 +6,12 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = {"id"})
-public class RentalPoints {
+public class RentalPoint {
     private Long id;
 
     private String location;
 
-    private RentalPointsStatus rentalPointsStatus;
+    private RentalPointStatus rentalPointsStatus;
 
 
 }

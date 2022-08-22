@@ -1,5 +1,5 @@
 package entity;
 
-public enum RentalPointsStatus {
+public enum RentalPointStatus {
     OPEN, CLOSE
 }

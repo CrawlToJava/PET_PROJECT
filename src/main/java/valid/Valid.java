@@ -1,20 +1,20 @@
 package valid;
 
 import entity.*;
-import entity.Scooters;
+import entity.Scooter;
 import exceptions.NotAvailableException;
 
 public class Valid {
-    public static void isRentAvailable(Scooters scooter, Users users, RentalPoints rentalPoint) {
-        if (!scooter.getScootersStatus().equals(ScootersStatus.AVAILABLE)
-                || !users.getUsersStatus().equals(UsersStatus.FRIENDLY)
-                || !rentalPoint.getRentalPointsStatus().equals(RentalPointsStatus.OPEN)) {
+    public static void isRentAvailable(Scooter scooter, User user, RentalPoint rentalPoint) {
+        if (!scooter.getScooterStatus().equals(ScooterStatus.AVAILABLE)
+                || !user.getUserStatus().equals(UserStatus.FRIENDLY)
+                || !rentalPoint.getRentalPointsStatus().equals(RentalPointStatus.OPEN)) {
                     throw new NotAvailableException("Вы не можете арендовать самокат");
                 }
     }
 
-    public static void isFinishRentAvailable(Scooters scooters) {
-        if (!scooters.getScootersStatus().equals(ScootersStatus.BOOKED)) {
+    public static void isFinishRentAvailable(Scooter scooter) {
+        if (!scooter.getScooterStatus().equals(ScooterStatus.BOOKED)) {
             throw new NotAvailableException("Вы не можете закрыть прокат");
         }
     }
