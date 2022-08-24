@@ -28,7 +28,6 @@ public class RentalPointRepositoryImpl implements RentalPointRepository {
         RentalPoint updatedRentalPoint = list.get(Math.toIntExact(id));
         updatedRentalPoint.setRentalPointsStatus(rentalPoint.getRentalPointsStatus());
         updatedRentalPoint.setLocation(rentalPoint.getLocation());
-
     }
 
     @Override

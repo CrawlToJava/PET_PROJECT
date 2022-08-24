@@ -1,13 +1,13 @@
 package entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @EqualsAndHashCode(of = {"id"})
 public class Model {
     private Long id;
@@ -18,11 +18,9 @@ public class Model {
 
     private int year;
 
-    private Double maxLoad;
+    private double maxLoad;
 
-    private Double range;
+    private double range;
 
-    private Integer power;
-
-
+    private double power;
 }

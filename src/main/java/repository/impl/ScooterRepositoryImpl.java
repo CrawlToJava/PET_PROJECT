@@ -16,7 +16,6 @@ public class ScooterRepositoryImpl implements ScooterRepository {
     public void save(Scooter scooter) {
         Valid.isScooterPresent(scooters, scooter.getId());
         scooters.add(scooter);
-
     }
 
     @Override
@@ -33,7 +32,6 @@ public class ScooterRepositoryImpl implements ScooterRepository {
         updatedScooter.setPrice(scooter.getPrice());
         updatedScooter.setUser(scooter.getUser());
         updatedScooter.setRentalPoint(scooter.getRentalPoint());
-
     }
 
     @Override

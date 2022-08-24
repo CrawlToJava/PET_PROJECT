@@ -2,9 +2,11 @@ package entity;
 
 import lombok.*;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @EqualsAndHashCode(of = {"id"})
 public class RentalPoint {
     private Long id;
@@ -12,6 +14,4 @@ public class RentalPoint {
     private String location;
 
     private RentalPointStatus rentalPointsStatus;
-
-
 }

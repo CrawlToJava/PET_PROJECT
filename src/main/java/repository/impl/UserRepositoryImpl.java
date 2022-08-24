@@ -40,9 +40,7 @@ public class UserRepositoryImpl implements UserRepository {
         updatedPerson.setSecondName(user.getSecondName());
         updatedPerson.setAge(user.getAge());
         updatedPerson.setSex(user.getSex());
-
     }
-
 
     public List<User> findAll() {
         return users;

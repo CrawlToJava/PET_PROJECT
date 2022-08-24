@@ -15,7 +15,6 @@ public class OrderRepositoryImpl implements OrderRepository {
     public void save(Order order) {
         Valid.isOrderPresent(orders, order.getId());
         orders.add(order);
-
     }
 
     @Override
@@ -42,7 +41,6 @@ public class OrderRepositoryImpl implements OrderRepository {
         updatedOrder.setUser(order.getUser());
         updatedOrder.setRentalPoint(order.getRentalPoint());
         updatedOrder.setTotalPrice(order.getTotalPrice());
-
     }
 
 

@@ -1,8 +1,8 @@
 package service.impl;
 
 import entity.*;
+import exceptions.NoDataFoundException;
 import lombok.AllArgsConstructor;
-import lombok.SneakyThrows;
 import repository.OrderRepository;
 import repository.RentalPointRepository;
 import repository.ScooterRepository;
@@ -13,32 +13,25 @@ import valid.Valid;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.List;
 import java.util.Optional;
 
 @AllArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
     private final UserRepository userRepository;
-
     private final ScooterRepository scooterRepository;
-
     private final OrderRepository orderRepository;
-
     private final RentalPointRepository rentalPointRepository;
 
 
-    @SneakyThrows
     @Override
     public void startRent(Long scootersId, Long ordersId, Long userId, Long rentalPointsId) {
-        Optional<Scooter> scootersOptional = scooterRepository.findById(scootersId);
-        Scooter scooter = scootersOptional.orElseThrow();
-        Optional<Order> ordersOptional = orderRepository.findById(ordersId);
-        Order order = ordersOptional.orElseThrow();
-        Optional<User> usersOptional = userRepository.findById(userId);
-        User user = usersOptional.orElseThrow();
-        Optional<RentalPoint> rentalPointsOptional = rentalPointRepository.findById(rentalPointsId);
-        RentalPoint rentalPoint = rentalPointsOptional.orElseThrow();
-        Valid.isRentAvailable(scooter, user, rentalPoint);
+        Scooter scooter = scooterRepository.findById(scootersId).orElseThrow(() -> new NoDataFoundException("Электросамокат с таким id не найден")); //TODO как расскрывать Optional
+        Order order = orderRepository.findById(ordersId).orElseThrow(() -> new NoDataFoundException("Заказ с таким id не найден"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new NoDataFoundException("Пользователь с таким id не найден"));
+        RentalPoint rentalPoint = rentalPointRepository.findById(rentalPointsId).orElseThrow(() -> new NoDataFoundException("Точка проката с таким id не найден"));
+        Valid.isRentAvailable(scooter.getScooterStatus(), user.getUserStatus(), rentalPoint.getRentalPointsStatus());
         scooter.setScooterStatus(ScooterStatus.BOOKED);
         order.setOrderStatus(OrderStatus.OPEN);
         order.setOrderedAt(LocalDateTime.now());
@@ -46,23 +39,46 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void finishRent(Long scootersId, Long ordersId) {
-        Optional<Scooter> scootersOptional = scooterRepository.findById(scootersId);
-        Scooter scooter = scootersOptional.orElseThrow();
-        Optional<Order> ordersOptional = orderRepository.findById(ordersId);
-        Order order = ordersOptional.orElseThrow();
+        Scooter scooter = scooterRepository.findById(scootersId).orElseThrow(() -> new NoDataFoundException("Электросамокат с таким id не найден"));
+        Order order = orderRepository.findById(ordersId).orElseThrow(() -> new NoDataFoundException("Заказ с таким id не найден"));
         Valid.isFinishRentAvailable(scooter);
         scooter.setScooterStatus(ScooterStatus.AVAILABLE);
         order.setOrderStatus(OrderStatus.CLOSE);
         order.setFinishedAt(LocalDateTime.now());
-        order.setTotalPrice(countOrderPrice(order.getOrderedAt()
-                , order.getFinishedAt()
-                , scooter.getPrice()));
+        order.setTotalPrice(countOrderPrice(order.getOrderedAt(),
+                order.getFinishedAt(),
+                scooter.getPrice()));
     }
 
     @Override
     public BigDecimal countOrderPrice(LocalDateTime orderedAt, LocalDateTime finishedAt, BigDecimal price) {
-        BigDecimal start = BigDecimal.valueOf(orderedAt.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
-        BigDecimal end = BigDecimal.valueOf(finishedAt.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
-        return price.multiply(start.subtract(end));
+        Long start = orderedAt.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        Long end = finishedAt.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        return price.multiply(BigDecimal.valueOf(end - start));
+    }
+
+    @Override
+    public void save(Order order) {
+        orderRepository.save(order);
+    }
+
+    @Override
+    public void delete(Long id) {
+        orderRepository.delete(id);
+    }
+
+    @Override
+    public void update(Long id, Order order) {
+        orderRepository.update(id, order);
+    }
+
+    @Override
+    public Optional<Order> findById(Long id) {
+        return orderRepository.findById(id);
+    }
+
+    @Override
+    public List<Order> findAll() {
+        return orderRepository.findAll();
     }
 }

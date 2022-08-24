@@ -2,12 +2,13 @@ package entity;
 
 import lombok.*;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @EqualsAndHashCode(of = {"id"})
 public class User {
-
     private Long id;
 
     private String firstName;
@@ -19,7 +20,6 @@ public class User {
     private Sex sex;
 
     private UserStatus userStatus;
-
 }
 
 

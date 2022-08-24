@@ -1,7 +1,11 @@
 package service;
 
+import entity.Order;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 
 public interface OrderService {
 
@@ -10,4 +14,14 @@ public interface OrderService {
     void finishRent(Long scootersId, Long ordersId);
 
     BigDecimal countOrderPrice(LocalDateTime orderedAt, LocalDateTime finishedAt, BigDecimal price);
+
+    void save(Order order);
+
+    void delete(Long id);
+
+    void update(Long id, Order order);
+
+    Optional<Order> findById(Long id);
+
+    List<Order> findAll();
 }
