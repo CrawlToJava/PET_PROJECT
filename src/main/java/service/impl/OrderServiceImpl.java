@@ -11,16 +11,16 @@ import repository.impl.OrderRepositoryImpl;
 import repository.impl.RentalPointRepositoryImpl;
 import repository.impl.ScooterRepositoryImpl;
 import repository.impl.UserRepositoryImpl;
-import service.PriceCounter;
-import service.Renter;
+import service.OrderService;
 import valid.Valid;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Optional;
 
 @Getter
-public class OrderService implements Renter, PriceCounter {
+public class OrderServiceImpl implements OrderService {
 
     private final UserRepository userRepository = new UserRepositoryImpl();
 
@@ -57,15 +57,15 @@ public class OrderService implements Renter, PriceCounter {
         scooter.setScooterStatus(ScooterStatus.AVAILABLE);
         order.setOrderStatus(OrderStatus.CLOSE);
         order.setFinishedAt(LocalDateTime.now());
-        order.setTotalPrice(counter(order.getOrderedAt()
+        order.setTotalPrice(countOrderPrice(order.getOrderedAt()
                 , order.getFinishedAt()
                 , scooter.getPrice()));
     }
 
     @Override
-    public Double counter(LocalDateTime orderedAt, LocalDateTime finishedAt, Double price) {
+    public BigDecimal countOrderPrice(LocalDateTime orderedAt, LocalDateTime finishedAt, Double price) {
         Long start = orderedAt.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
         Long end = finishedAt.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
-        return price * (end - start);
+        return BigDecimal.valueOf(price * (end - start));
     }
 }

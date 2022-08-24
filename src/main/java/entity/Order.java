@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
@@ -18,7 +19,7 @@ public class Order {
 
     private LocalDateTime finishedAt;
 
-    private double totalPrice;
+    private BigDecimal totalPrice;
 
     private OrderStatus orderStatus;
 
