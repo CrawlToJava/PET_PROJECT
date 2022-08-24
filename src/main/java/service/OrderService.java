@@ -9,5 +9,5 @@ public interface OrderService {
 
     void finishRent(Long scootersId, Long ordersId);
 
-    BigDecimal countOrderPrice(LocalDateTime orderedAt, LocalDateTime finishedAt, Double price);
+    BigDecimal countOrderPrice(LocalDateTime orderedAt, LocalDateTime finishedAt, BigDecimal price);
 }

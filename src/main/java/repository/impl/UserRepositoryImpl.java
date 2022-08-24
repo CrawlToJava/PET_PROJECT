@@ -1,8 +1,8 @@
 package repository.impl;
 
 import entity.User;
-import exceptions.NoSuchElementException;
 import repository.UserRepository;
+import valid.Valid;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,11 +15,8 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void save(User user) {
-        if (isPresent(this.users, user.getId())) {
-            throw new RuntimeException("Человек с таким id уже есть");
-        } else {
-            this.users.add(user);
-        }
+        Valid.isUserPresent(users, user.getId());
+        users.add(user);
     }
 
     @Override
@@ -29,27 +26,23 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public Optional<User> findById(Long id) {
-        return users.stream().
-                filter(user ->
-                        user.getId().equals(id)).findFirst();
+        return users
+                .stream()
+                .filter(user -> user.getId().equals(id))
+                .findFirst();
     }
 
     @Override
     public void update(Long id, User user) {
-        if (isPresent(this.users, id)) {
-            User updatedPerson = this.users.get(Math.toIntExact(id));
-            updatedPerson.setFirstName(user.getFirstName());
-            updatedPerson.setSecondName(user.getSecondName());
-            updatedPerson.setAge(user.getAge());
-            updatedPerson.setSex(user.getSex());
-        } else {
-            throw new NoSuchElementException("Человек не найден");
-        }
+        Valid.isUserPresent(users, id);
+        User updatedPerson = users.get(Math.toIntExact(id));
+        updatedPerson.setFirstName(user.getFirstName());
+        updatedPerson.setSecondName(user.getSecondName());
+        updatedPerson.setAge(user.getAge());
+        updatedPerson.setSex(user.getSex());
+
     }
 
-    public boolean isPresent(List<User> userList, Long id) {
-        return userList.stream().anyMatch(u -> u.getId().equals(id));
-    }
 
     public List<User> findAll() {
         return users;
@@ -57,6 +50,9 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public List<User> findBySecondName(String secondName) {
-        return users.stream().filter(user -> user.getSecondName().equals(secondName)).collect(Collectors.toList());
+        return users
+                .stream()
+                .filter(user -> user.getSecondName().equals(secondName))
+                .collect(Collectors.toList());
     }
 }

@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -12,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class Scooter {
     private Long id;
 
-    private Double price;
+    private BigDecimal price;
 
     private Model model;
 

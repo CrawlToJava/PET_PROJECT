@@ -1,16 +1,12 @@
 package service.impl;
 
 import entity.*;
-import lombok.Getter;
+import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import repository.OrderRepository;
 import repository.RentalPointRepository;
 import repository.ScooterRepository;
 import repository.UserRepository;
-import repository.impl.OrderRepositoryImpl;
-import repository.impl.RentalPointRepositoryImpl;
-import repository.impl.ScooterRepositoryImpl;
-import repository.impl.UserRepositoryImpl;
 import service.OrderService;
 import valid.Valid;
 
@@ -19,16 +15,17 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Optional;
 
-@Getter
+@AllArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
-    private final UserRepository userRepository = new UserRepositoryImpl();
+    private final UserRepository userRepository;
 
-    private final ScooterRepository scooterRepository = new ScooterRepositoryImpl();
+    private final ScooterRepository scooterRepository;
 
-    private final OrderRepository orderRepository = new OrderRepositoryImpl();
+    private final OrderRepository orderRepository;
 
-    private final RentalPointRepository rentalPointRepository = new RentalPointRepositoryImpl();
+    private final RentalPointRepository rentalPointRepository;
+
 
     @SneakyThrows
     @Override
@@ -63,9 +60,9 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public BigDecimal countOrderPrice(LocalDateTime orderedAt, LocalDateTime finishedAt, Double price) {
-        Long start = orderedAt.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
-        Long end = finishedAt.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
-        return BigDecimal.valueOf(price * (end - start));
+    public BigDecimal countOrderPrice(LocalDateTime orderedAt, LocalDateTime finishedAt, BigDecimal price) {
+        BigDecimal start = BigDecimal.valueOf(orderedAt.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
+        BigDecimal end = BigDecimal.valueOf(finishedAt.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
+        return price.multiply(start.subtract(end));
     }
 }

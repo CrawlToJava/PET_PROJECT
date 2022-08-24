@@ -1,8 +1,8 @@
 package repository.impl;
 
 import entity.Order;
-import exceptions.NoSuchElementException;
 import repository.OrderRepository;
+import valid.Valid;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,11 +13,9 @@ public class OrderRepositoryImpl implements OrderRepository {
 
     @Override
     public void save(Order order) {
-        if (isPresent(this.orders, order.getId())) {
-            throw new RuntimeException("Человек с таким id уже есть");
-        } else {
-            this.orders.add(order);
-        }
+        Valid.isOrderPresent(orders, order.getId());
+        orders.add(order);
+
     }
 
     @Override
@@ -27,30 +25,26 @@ public class OrderRepositoryImpl implements OrderRepository {
 
     @Override
     public Optional<Order> findById(Long id) {
-        return orders.stream().
-                filter(user ->
-                        user.getId().equals(id)).findFirst();
+        return orders
+                .stream()
+                .filter(user -> user.getId().equals(id))
+                .findFirst();
     }
 
     @Override
     public void update(Long id, Order order) {
-        if (isPresent(this.orders, id)) {
-            Order updatedOrder = this.orders.get(Math.toIntExact(id));
-            updatedOrder.setOrderStatus(order.getOrderStatus());
-            updatedOrder.setOrderedAt(order.getOrderedAt());
-            updatedOrder.setFinishedAt(order.getFinishedAt());
-            updatedOrder.setScooter(order.getScooter());
-            updatedOrder.setUser(order.getUser());
-            updatedOrder.setRentalPoint(order.getRentalPoint());
-            updatedOrder.setTotalPrice(order.getTotalPrice());
-        } else {
-            throw new NoSuchElementException("Заказ не найден");
-        }
+        Valid.isOrderPresent(orders, id);
+        Order updatedOrder = this.orders.get(Math.toIntExact(id));
+        updatedOrder.setOrderStatus(order.getOrderStatus());
+        updatedOrder.setOrderedAt(order.getOrderedAt());
+        updatedOrder.setFinishedAt(order.getFinishedAt());
+        updatedOrder.setScooter(order.getScooter());
+        updatedOrder.setUser(order.getUser());
+        updatedOrder.setRentalPoint(order.getRentalPoint());
+        updatedOrder.setTotalPrice(order.getTotalPrice());
+
     }
 
-    public boolean isPresent(List<Order> orderList, Long id) {
-        return orderList.stream().anyMatch(u -> u.getId().equals(id));
-    }
 
     public List<Order> findAll() {
         return orders;

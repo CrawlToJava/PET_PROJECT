@@ -2,7 +2,7 @@ package repository.impl;
 
 import entity.Scooter;
 import repository.ScooterRepository;
-import exceptions.NoSuchElementException;
+import valid.Valid;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,11 +14,9 @@ public class ScooterRepositoryImpl implements ScooterRepository {
 
     @Override
     public void save(Scooter scooter) {
-        if (isPresent(scooters, scooter.getId())) {
-            throw new RuntimeException("Электросамокаи с таким id уже есть");
-        } else {
-            scooters.add(scooter);
-        }
+        Valid.isScooterPresent(scooters, scooter.getId());
+        scooters.add(scooter);
+
     }
 
     @Override
@@ -28,23 +26,22 @@ public class ScooterRepositoryImpl implements ScooterRepository {
 
     @Override
     public void update(Long id, Scooter scooter) {
-        if (isPresent(scooters, id)) {
-            Scooter updatedScooter = scooters.get(Math.toIntExact(id));
-            updatedScooter.setModel(scooter.getModel());
-            updatedScooter.setScooterStatus(scooter.getScooterStatus());
-            updatedScooter.setPrice(scooter.getPrice());
-            updatedScooter.setUser(scooter.getUser());
-            updatedScooter.setRentalPoint(scooter.getRentalPoint());
-        } else {
-            throw new NoSuchElementException("Электросамокат не найден");
-        }
+        Valid.isScooterPresent(scooters, id);
+        Scooter updatedScooter = scooters.get(Math.toIntExact(id));
+        updatedScooter.setModel(scooter.getModel());
+        updatedScooter.setScooterStatus(scooter.getScooterStatus());
+        updatedScooter.setPrice(scooter.getPrice());
+        updatedScooter.setUser(scooter.getUser());
+        updatedScooter.setRentalPoint(scooter.getRentalPoint());
+
     }
 
     @Override
     public Optional<Scooter> findById(Long id) {
-        return scooters.stream().
-                filter(user ->
-                        user.getId().equals(id)).findFirst();
+        return scooters
+                .stream()
+                .filter(user -> user.getId().equals(id))
+                .findFirst();
     }
 
     @Override
@@ -52,7 +49,4 @@ public class ScooterRepositoryImpl implements ScooterRepository {
         return scooters;
     }
 
-    public boolean isPresent(List<Scooter> scooterList, Long id) {
-        return scooterList.stream().anyMatch(u -> u.getId().equals(id));
-    }
 }

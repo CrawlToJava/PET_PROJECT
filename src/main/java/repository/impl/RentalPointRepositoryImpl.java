@@ -2,7 +2,7 @@ package repository.impl;
 
 import entity.RentalPoint;
 import repository.RentalPointRepository;
-import exceptions.NoSuchElementException;
+import valid.Valid;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,11 +13,8 @@ public class RentalPointRepositoryImpl implements RentalPointRepository {
 
     @Override
     public void save(RentalPoint rentalPoint) {
-        if (isPresent(list,rentalPoint.getId())) {
-            throw new RuntimeException("Точка проката с таким id уже есть");
-        } else {
-            list.add(rentalPoint);
-        }
+        Valid.isRentalPointPresent(list, rentalPoint.getId());
+        list.add(rentalPoint);
     }
 
     @Override
@@ -27,28 +24,23 @@ public class RentalPointRepositoryImpl implements RentalPointRepository {
 
     @Override
     public void update(Long id, RentalPoint rentalPoint) {
-        if (isPresent(list, id)) {
-            RentalPoint updatedRentalPoint = list.get(Math.toIntExact(id));
-            updatedRentalPoint.setRentalPointsStatus(rentalPoint.getRentalPointsStatus());
-            updatedRentalPoint.setLocation(rentalPoint.getLocation());
-        } else {
-            throw new NoSuchElementException("Точка проката не найдена");
-        }
+        Valid.isRentalPointPresent(list, rentalPoint.getId());
+        RentalPoint updatedRentalPoint = list.get(Math.toIntExact(id));
+        updatedRentalPoint.setRentalPointsStatus(rentalPoint.getRentalPointsStatus());
+        updatedRentalPoint.setLocation(rentalPoint.getLocation());
+
     }
 
     @Override
     public Optional<RentalPoint> findById(Long id) {
-        return list.stream().
-                filter(user ->
-                        user.getId().equals(id)).findFirst();
+        return list
+                .stream()
+                .filter(user -> user.getId().equals(id))
+                .findFirst();
     }
 
     @Override
     public List<RentalPoint> findAll() {
         return list;
-    }
-
-    public boolean isPresent(List<RentalPoint> pointsList, Long id) {
-        return pointsList.stream().anyMatch(u -> u.getId().equals(id));
     }
 }
