@@ -34,7 +34,7 @@ public class OrderRepositoryImpl implements OrderRepository {
     @Override
     public void update(Long id, Order order) {
         Valid.isOrderPresent(orders, id);
-        Order updatedOrder = this.orders.get(Math.toIntExact(id));
+        Order updatedOrder = orders.get(Math.toIntExact(id));
         updatedOrder.setOrderStatus(order.getOrderStatus());
         updatedOrder.setOrderedAt(order.getOrderedAt());
         updatedOrder.setFinishedAt(order.getFinishedAt());
