@@ -11,8 +11,6 @@ public interface UserRepository {
 
     void delete(Long id);
 
-    int size();
-
     void update(Long id, User user);
 
     Optional<User> findById(Long id);
