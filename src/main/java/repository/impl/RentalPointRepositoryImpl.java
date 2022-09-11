@@ -47,9 +47,9 @@ public class RentalPointRepositoryImpl implements RentalPointRepository {
     }
 
     @Override
-    public void update(Long id, RentalPoint rentalPoint) {
+    public void update(RentalPoint rentalPoint) {
         Connection postgres = dataBase.connection();
-        try (PreparedStatement statement = postgres.prepareStatement(Queryses.UPDATE_RENTAL_POINT + id)) {
+        try (PreparedStatement statement = postgres.prepareStatement(Queryses.UPDATE_RENTAL_POINT + rentalPoint.getId())) {
             statement.setString(1, rentalPoint.getLocation());
             statement.setString(2, String.valueOf(rentalPoint.getRentalPointsStatus()).toUpperCase());
             statement.executeUpdate();
@@ -98,7 +98,7 @@ public class RentalPointRepositoryImpl implements RentalPointRepository {
         RentalPoint rentalPoint = new RentalPoint();
         rentalPoint.setId(resultSet.getLong("id"));
         rentalPoint.setLocation(resultSet.getString("location"));
-        rentalPoint.setRentalPointsStatus(RentalPointStatus.valueOf(resultSet.getString("scooter_status")));
+        rentalPoint.setRentalPointsStatus(RentalPointStatus.valueOf(resultSet.getString("rental_point_status").toUpperCase()));
         return rentalPoint;
     }
 }

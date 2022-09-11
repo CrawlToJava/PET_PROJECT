@@ -43,10 +43,10 @@ public class RentalPointServiceImpl implements RentalPointService {
     }
 
     @Override
-    public void update(Long id, RentalPoint rentalPoint) {
-        Optional<RentalPoint> rentalPointFromDataBase = rentalPointRepository.findById(id);
+    public void update(RentalPoint rentalPoint) {
+        Optional<RentalPoint> rentalPointFromDataBase = rentalPointRepository.findById(rentalPoint.getId());
         if (rentalPointFromDataBase.isPresent()) {
-            rentalPointRepository.update(id, rentalPoint);
+            rentalPointRepository.update(rentalPoint);
         } else {
             throw new NotAvailableException("Точки проката с таким id не сущестует");
         }

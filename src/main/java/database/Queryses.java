@@ -20,13 +20,13 @@ public class Queryses {
 
     public static final String SAVE_SCOOTER = "INSERT INTO scooters VALUES(?,?,?,?,?,?)";
 
-    public static final String UPDATE_SCOOTER = "UPDATE users SET price = ?, model = ?, rental_point = ?, scooter_status = ?, user = ? WHERE id =";
+    public static final String UPDATE_SCOOTER = "UPDATE scooters SET price = ?, rental_point_id = ?, model_id = ?, scooter_status = ?, user_id = ? WHERE id =";
 
     public static final String FIND_ALL_ORDERS = "SELECT * FROM orders";
 
-    public static final String FIND_ORDER_BY_ID = "SELECT * FROM orders WHERE id = ?";
+    public static final String FIND_ORDER_BY_ID = "SELECT * FROM orders WHERE id = ";
 
-    public static final String DELETE_ORDER = "DELETE FROM orders WHERE id = ?";
+    public static final String DELETE_ORDER = "DELETE FROM orders WHERE id = ";
 
     public static final String SAVE_ORDER = "INSERT INTO orders VALUES(?,?,?,?,?,?,?,?)";
 
@@ -34,9 +34,9 @@ public class Queryses {
 
     public static final String FIND_ALL_RENTAL_POINTS = "SELECT * FROM rental_points";
 
-    public static final String FIND_RENTAL_POINT_BY_ID = "SELECT * FROM rental_points WHERE id = ?";
+    public static final String FIND_RENTAL_POINT_BY_ID = "SELECT * FROM rental_points WHERE id = ";
 
-    public static final String DELETE_RENTAL_POINT = "DELETE FROM rental_points WHERE id = ?";
+    public static final String DELETE_RENTAL_POINT = "DELETE FROM rental_points WHERE id = ";
 
     public static final String SAVE_RENTAL_POINT = "INSERT INTO rental_points VALUES(?,?,?)";
 

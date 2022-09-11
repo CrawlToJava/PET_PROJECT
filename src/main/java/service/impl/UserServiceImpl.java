@@ -44,10 +44,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void update(Long id, User user) {
-        Optional<User> userFromDataBase = userRepository.findById(id);
+    public void update(User user) {
+        Optional<User> userFromDataBase = userRepository.findById(user.getId());
         if (userFromDataBase.isPresent()) {
-            userRepository.update(id, user);
+            userRepository.update(user);
         } else {
             throw new NotAvailableException("Пользователя с таким id не сущестует");
         }

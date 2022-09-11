@@ -10,7 +10,7 @@ public interface OrderRepository {
 
     void delete(Long id);
 
-    void update(Long id, Order order);
+    void update(Order order);
 
     Optional<Order> findById(Long id);
 

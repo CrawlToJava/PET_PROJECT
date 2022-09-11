@@ -1,11 +1,11 @@
-package repository;
+package service;
 
 import entity.Model;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface ModelRepository {
+public interface ModelService {
     void save(Model model);
 
     void delete(Long id);

@@ -10,7 +10,7 @@ public interface RentalPointRepository {
 
     void delete(Long id);
 
-    void update(Long id, RentalPoint rentalPoint);
+    void update(RentalPoint rentalPoint);
 
     Optional<RentalPoint> findById(Long id);
 

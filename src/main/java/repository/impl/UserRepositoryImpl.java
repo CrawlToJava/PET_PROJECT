@@ -61,9 +61,9 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void update(Long id, User user) {
+    public void update(User user) {
         Connection postgres = dataBase.connection();
-        try (PreparedStatement statement = postgres.prepareStatement(Queryses.UPDATE_USER + id)) {
+        try (PreparedStatement statement = postgres.prepareStatement(Queryses.UPDATE_USER + user.getId())) {
             statement.setString(1, user.getFirstName());
             statement.setString(2, user.getLastName());
             statement.setInt(3, Math.toIntExact(user.getAge()));

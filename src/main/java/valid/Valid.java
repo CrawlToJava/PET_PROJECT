@@ -1,11 +1,8 @@
 package valid;
 
 import entity.*;
-import entity.Scooter;
-import exceptions.NoDataFoundException;
 import exceptions.NotAvailableException;
-
-import java.util.List;
+import repository.OrderRepository;
 
 public class Valid {
     public static void isRentAvailable(ScooterStatus status, UserStatus userStatus, RentalPointStatus rentalPointStatus) {
@@ -16,34 +13,9 @@ public class Valid {
         }
     }
 
-    public static void isFinishRentAvailable(Scooter scooter) {
-        if (!scooter.getScooterStatus().equals(ScooterStatus.BOOKED)) {
-            throw new NotAvailableException("Вы не можете закрыть прокат");
+    public static void isOrderPresent(Long ordersId, OrderRepository orderRepository) {
+        if (orderRepository.findById(ordersId).isPresent()) {
+            throw new NotAvailableException("Заказ с таким id уже существует");
         }
     }
-
-    public static void isScooterPresent(List<Scooter> scooterList, Long id) {
-        if (scooterList
-                .stream()
-                .anyMatch(scooter -> scooter.getId().equals(id))) {
-            throw new NoDataFoundException("Проверьте корректность введенного id");
-        }
-    }
-
-    public static void isRentalPointPresent(List<RentalPoint> rentalPoints, Long id) {
-        if (rentalPoints
-                .stream()
-                .anyMatch(rentalPoint -> rentalPoint.getId().equals(id))) {
-            throw new NoDataFoundException("Проверьте корректность введенного id");
-        }
-    }
-
-    public static void isOrderPresent(List<Order> orderList, Long id) {
-        if (orderList
-                .stream()
-                .anyMatch(order -> order.getId().equals(id))) {
-            throw new NoDataFoundException("Проверьте корректность введенного id");
-        }
-    }
-
 }

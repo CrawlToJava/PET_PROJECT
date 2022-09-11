@@ -43,8 +43,8 @@ public class ScooterServiceImpl implements ScooterService {
     }
 
     @Override
-    public void update(Long id, Scooter scooter) {
-        scooterRepository.update(id, scooter);
+    public void update(Scooter scooter) {
+        scooterRepository.update(scooter);
     }
 
     @Override

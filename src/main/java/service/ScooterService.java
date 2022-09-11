@@ -10,7 +10,7 @@ public interface ScooterService {
 
     void delete(Long id);
 
-    void update(Long id, Scooter scooter);
+    void update(Scooter scooter);
 
     Optional<Scooter> findById(Long id);
 

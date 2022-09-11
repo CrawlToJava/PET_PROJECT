@@ -26,8 +26,6 @@ public class ScooterRepositoryImpl implements ScooterRepository {
 
     private UserRepository userRepository;
 
-    private ScooterRepository scooterRepository;
-
     private RentalPointRepository rentalPointRepository;
 
     private ModelRepository modelRepository;
@@ -73,13 +71,13 @@ public class ScooterRepositoryImpl implements ScooterRepository {
     }
 
     @Override
-    public void update(Long id, Scooter scooter) {
+    public void update(Scooter scooter) {
         Connection postgres = dataBase.connection();
-        try (PreparedStatement statement = postgres.prepareStatement(Queryses.UPDATE_SCOOTER + id)) {
+        try (PreparedStatement statement = postgres.prepareStatement(Queryses.UPDATE_SCOOTER + scooter.getId())) {
             statement.setBigDecimal(1, scooter.getPrice());
-            statement.setString(2, String.valueOf(scooter.getScooterStatus()).toUpperCase());
-            statement.setInt(3, Math.toIntExact(scooter.getModel().getId()));
-            statement.setInt(4, Math.toIntExact(scooter.getRentalPoint().getId()));
+            statement.setString(4, String.valueOf(scooter.getScooterStatus()).toUpperCase());
+            statement.setInt(2, Math.toIntExact(scooter.getModel().getId()));
+            statement.setInt(3, Math.toIntExact(scooter.getRentalPoint().getId()));
             statement.setInt(5, Math.toIntExact(scooter.getUser().getId()));
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -116,7 +114,7 @@ public class ScooterRepositoryImpl implements ScooterRepository {
         Scooter scooter = new Scooter();
         scooter.setId(resultSet.getLong("id"));
         scooter.setPrice(resultSet.getBigDecimal("price"));
-        scooter.setScooterStatus(ScooterStatus.valueOf(resultSet.getString("scooter_status")));
+        scooter.setScooterStatus(ScooterStatus.valueOf(resultSet.getString("scooter_status").toUpperCase()));
         scooter.setRentalPoint(rentalPointRepository.findById(resultSet.getLong("rental_point_id")).orElseThrow(() -> new NoDataFoundException("Точка проката не найдена")));
         scooter.setUser(userRepository.findById(resultSet.getLong("user_id")).orElseThrow(() -> new NoDataFoundException("Пользователь не найден")));
         scooter.setModel(modelRepository.findById(resultSet.getLong("model_id")).orElseThrow(() -> new NoDataFoundException("Модель электросамоката не найдена")));

@@ -52,9 +52,9 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
-    public void update(Long id, Order order) {
+    public void update(Order order) {
         Connection postgres = dataBase.connection();
-        try (PreparedStatement statement = postgres.prepareStatement(Queryses.UPDATE_MODEL + id)) {
+        try (PreparedStatement statement = postgres.prepareStatement(Queryses.UPDATE_ORDER + order.getId())) {
             statement.setTimestamp(1, Timestamp.valueOf(order.getOrderedAt()));
             statement.setTimestamp(2, Timestamp.valueOf(order.getFinishedAt()));
             statement.setBigDecimal(3, order.getTotalPrice());
@@ -115,10 +115,11 @@ public class OrderRepositoryImpl implements OrderRepository {
         statement.setLong(1, order.getId());
         statement.setTimestamp(2, Timestamp.valueOf(order.getOrderedAt()));
         statement.setTimestamp(3, Timestamp.valueOf(order.getFinishedAt()));
-        statement.setString(4, String.valueOf(order.getOrderStatus()).toUpperCase());
-        statement.setInt(5, Math.toIntExact(order.getScooter().getId()));
-        statement.setInt(6, Math.toIntExact(order.getRentalPoint().getId()));
-        statement.setInt(7, Math.toIntExact(order.getUser().getId()));
+        statement.setBigDecimal(4, order.getTotalPrice());
+        statement.setString(5, String.valueOf(order.getOrderStatus()).toUpperCase());
+        statement.setInt(6, Math.toIntExact(order.getScooter().getId()));
+        statement.setInt(7, Math.toIntExact(order.getRentalPoint().getId()));
+        statement.setInt(8, Math.toIntExact(order.getUser().getId()));
     }
 
 }

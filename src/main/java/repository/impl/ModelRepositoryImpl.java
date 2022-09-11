@@ -6,11 +6,11 @@ import entity.Model;
 import exceptions.NoDataFoundException;
 import lombok.AllArgsConstructor;
 import repository.ModelRepository;
-import repository.RentalPointRepository;
-import repository.ScooterRepository;
-import repository.UserRepository;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -18,12 +18,6 @@ import java.util.Optional;
 @AllArgsConstructor
 public class ModelRepositoryImpl implements ModelRepository {
     private DataBase dataBase;
-
-    private UserRepository userRepository;
-
-    private ScooterRepository scooterRepository;
-
-    private RentalPointRepository rentalPointRepository;
 
     @Override
     public void save(Model model) {
@@ -51,9 +45,9 @@ public class ModelRepositoryImpl implements ModelRepository {
     }
 
     @Override
-    public void update(Long id, Model model) {
+    public void update(Model model) {
         Connection postgres = dataBase.connection();
-        try (PreparedStatement statement = postgres.prepareStatement(Queryses.UPDATE_MODEL + id)) {
+        try (PreparedStatement statement = postgres.prepareStatement(Queryses.UPDATE_MODEL + model.getId())) {
             statement.setString(1, model.getBrand());
             statement.setString(2, model.getModel());
             statement.setInt(3, model.getYear());
@@ -93,7 +87,7 @@ public class ModelRepositoryImpl implements ModelRepository {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        throw new NoDataFoundException("В базе данных нет моделей самокатов.");
+        throw new NoDataFoundException("В базе данных нет моделей самокатов");
     }
 
     private Model createModelFromResultSet(ResultSet resultSet) throws SQLException {
@@ -117,4 +111,5 @@ public class ModelRepositoryImpl implements ModelRepository {
         statement.setDouble(6, model.getRange());
         statement.setDouble(7, model.getPower());
     }
+
 }
