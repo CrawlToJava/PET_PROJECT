@@ -15,9 +15,9 @@ public class Scooter {
 
     private BigDecimal price;
 
-    private Model model;
-
     private RentalPoint rentalPoint;
+
+    private Model model;
 
     private ScooterStatus scooterStatus;
 

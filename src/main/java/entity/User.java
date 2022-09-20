@@ -13,13 +13,14 @@ public class User {
 
     private String firstName;
 
-    private String secondName;
+    private String lastName;
 
     private int age;
 
     private Sex sex;
 
     private UserStatus userStatus;
+
 }
 
 

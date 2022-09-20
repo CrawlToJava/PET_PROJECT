@@ -2,6 +2,7 @@ package service.impl;
 
 import entity.*;
 import exceptions.NoDataFoundException;
+import exceptions.NotAvailableException;
 import lombok.AllArgsConstructor;
 import repository.OrderRepository;
 import repository.RentalPointRepository;
@@ -24,30 +25,23 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final RentalPointRepository rentalPointRepository;
 
-
     @Override
     public void startRent(Long scootersId, Long ordersId, Long userId, Long rentalPointsId) {
-        Scooter scooter = scooterRepository.findById(scootersId).orElseThrow(() -> new NoDataFoundException("Электросамокат с таким id не найден")); //TODO как расскрывать Optional
-        Order order = orderRepository.findById(ordersId).orElseThrow(() -> new NoDataFoundException("Заказ с таким id не найден"));
+        Scooter scooter = scooterRepository.findById(scootersId).orElseThrow(() -> new NoDataFoundException("Электросамокат с таким id не найден"));
         User user = userRepository.findById(userId).orElseThrow(() -> new NoDataFoundException("Пользователь с таким id не найден"));
         RentalPoint rentalPoint = rentalPointRepository.findById(rentalPointsId).orElseThrow(() -> new NoDataFoundException("Точка проката с таким id не найден"));
         Valid.isRentAvailable(scooter.getScooterStatus(), user.getUserStatus(), rentalPoint.getRentalPointsStatus());
-        scooter.setScooterStatus(ScooterStatus.BOOKED);
-        order.setOrderStatus(OrderStatus.OPEN);
-        order.setOrderedAt(LocalDateTime.now());
+        Valid.isOrderPresent(ordersId, orderRepository);
+        scooterRepository.update(new Scooter(scootersId, scooter.getPrice(), rentalPoint, scooter.getModel(), ScooterStatus.BOOKED, user));
+        orderRepository.save(new Order(ordersId, LocalDateTime.now(), LocalDateTime.now(), null, OrderStatus.OPEN, user, scooter, rentalPoint)); //TODO как передать времени завершения null
     }
 
     @Override
-    public void finishRent(Long scootersId, Long ordersId) {
-        Scooter scooter = scooterRepository.findById(scootersId).orElseThrow(() -> new NoDataFoundException("Электросамокат с таким id не найден"));
-        Order order = orderRepository.findById(ordersId).orElseThrow(() -> new NoDataFoundException("Заказ с таким id не найден"));
-        Valid.isFinishRentAvailable(scooter);
-        scooter.setScooterStatus(ScooterStatus.AVAILABLE);
-        order.setOrderStatus(OrderStatus.CLOSE);
-        order.setFinishedAt(LocalDateTime.now());
-        order.setTotalPrice(countOrderPrice(order.getOrderedAt(),
-                order.getFinishedAt(),
-                scooter.getPrice()));
+    public void finishRent(Long scooterId, Long orderId) {
+        Scooter scooter = scooterRepository.findById(scooterId).orElseThrow(() -> new NoDataFoundException("Электросамокат с таким id не найден"));
+        Order order = orderRepository.findById(orderId).orElseThrow(() -> new NoDataFoundException("Заказ с таким id не найден"));
+        scooterRepository.update(new Scooter(scooterId, scooter.getPrice(), scooter.getRentalPoint(), scooter.getModel(), ScooterStatus.AVAILABLE, scooter.getUser()));
+        orderRepository.update(new Order(orderId, order.getOrderedAt(), LocalDateTime.now(), countOrderPrice(order.getOrderedAt(), LocalDateTime.now(), scooter.getPrice()), OrderStatus.CLOSE, order.getUser(), order.getScooter(), order.getRentalPoint()));
     }
 
     @Override
@@ -59,17 +53,27 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void save(Order order) {
-        orderRepository.save(order);
+        Optional<Order> orderFromDataBase = orderRepository.findById(order.getId());
+        if (orderFromDataBase.isEmpty()) {
+            orderRepository.save(order);
+        } else {
+            throw new NotAvailableException("Заказ с таким id уже есть");
+        }
     }
 
     @Override
     public void delete(Long id) {
-        orderRepository.delete(id);
+        Optional<Order> orderFromDataBase = orderRepository.findById(id);
+        if (orderFromDataBase.isPresent()) {
+            orderRepository.delete(id);
+        } else {
+            throw new NotAvailableException("Заказа с таким id не сущестует");
+        }
     }
 
     @Override
-    public void update(Long id, Order order) {
-        orderRepository.update(id, order);
+    public void update(Order order) {
+        orderRepository.update(order);
     }
 
     @Override

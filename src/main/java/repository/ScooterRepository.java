@@ -11,7 +11,7 @@ public interface ScooterRepository {
 
     void delete(Long id);
 
-    void update(Long id, Scooter scooter);
+    void update(Scooter scooter);
 
     Optional<Scooter> findById(Long id);
 
