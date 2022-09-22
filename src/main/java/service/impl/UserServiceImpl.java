@@ -1,6 +1,7 @@
 package service.impl;
 
 import entity.User;
+import exceptions.NoDataFoundException;
 import exceptions.NotAvailableException;
 import lombok.AllArgsConstructor;
 import repository.OrderRepository;
@@ -35,11 +36,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void delete(Long id) {
-        Optional<User> userFromDataBase = userRepository.findById(id);
-        if (userFromDataBase.isPresent()) {
+        Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()) {
             userRepository.delete(id);
         } else {
-            throw new NotAvailableException("Пользователя с таким id не сущестует");
+            throw new NoDataFoundException("Пользователя с таким id не сущестует");
         }
     }
 
@@ -55,16 +56,29 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> findById(Long id) {
-        return userRepository.findById(id);
+        Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()) {
+            return user;
+        } else {
+            throw new NoDataFoundException("Пользователя с таким id не существует");
+        }
     }
 
     @Override
     public List<User> findAll() {
-        return userRepository.findAll();
+        List<User> userList = userRepository.findAll();
+        if (userList.isEmpty()) {
+            throw new NoDataFoundException("Таблица с пользователями пустая");
+        }
+        return userList;
     }
 
     @Override
-    public List<User> findByLastName(String secondName) {
-        return userRepository.findBySecondName(secondName);
+    public List<User> findByLastName(String lastName) {
+        List<User> userList = userRepository.findByLastName(lastName);
+        if (userList.isEmpty()) {
+            throw new NoDataFoundException("Пользователей с такой фамилией не сущестует");
+        }
+        return userList;
     }
 }

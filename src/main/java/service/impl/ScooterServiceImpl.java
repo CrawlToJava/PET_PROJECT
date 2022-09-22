@@ -1,6 +1,7 @@
 package service.impl;
 
 import entity.Scooter;
+import exceptions.NoDataFoundException;
 import exceptions.NotAvailableException;
 import lombok.AllArgsConstructor;
 import repository.OrderRepository;
@@ -21,6 +22,7 @@ public class ScooterServiceImpl implements ScooterService {
     private final OrderRepository orderRepository;
 
     private final RentalPointRepository rentalPointRepository;
+
 
     @Override
     public void save(Scooter scooter) {
@@ -44,16 +46,30 @@ public class ScooterServiceImpl implements ScooterService {
 
     @Override
     public void update(Scooter scooter) {
-        scooterRepository.update(scooter);
+        Optional<Scooter> scooterFromDataBase = scooterRepository.findById(scooter.getId());
+        if (scooterFromDataBase.isPresent()) {
+            scooterRepository.update(scooter);
+        } else {
+            throw new NoDataFoundException("Самоката с таким id не существует");
+        }
     }
 
     @Override
     public Optional<Scooter> findById(Long id) {
-        return scooterRepository.findById(id);
+        Optional<Scooter> scooter = scooterRepository.findById(id);
+        if (scooter.isPresent()) {
+            return scooter;
+        } else {
+            throw new NoDataFoundException("Самоката с таким id не существует");
+        }
     }
 
     @Override
     public List<Scooter> findAll() {
-        return scooterRepository.findAll();
+        List<Scooter> scooterList = scooterRepository.findAll();
+        if (scooterList.isEmpty()) {
+            throw new NoDataFoundException("Таблица с самокатами пустая");
+        }
+        return scooterList;
     }
 }

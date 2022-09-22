@@ -1,6 +1,7 @@
 package service.impl;
 
 import entity.RentalPoint;
+import exceptions.NoDataFoundException;
 import exceptions.NotAvailableException;
 import lombok.AllArgsConstructor;
 import repository.OrderRepository;
@@ -21,6 +22,7 @@ public class RentalPointServiceImpl implements RentalPointService {
     private final OrderRepository orderRepository;
 
     private final RentalPointRepository rentalPointRepository;
+
 
     @Override
     public void save(RentalPoint rentalPoint) {
@@ -54,11 +56,20 @@ public class RentalPointServiceImpl implements RentalPointService {
 
     @Override
     public Optional<RentalPoint> findById(Long id) {
-        return rentalPointRepository.findById(id);
+        Optional<RentalPoint> rentalPoint = rentalPointRepository.findById(id);
+        if (rentalPoint.isPresent()) {
+            return rentalPoint;
+        } else {
+            throw new NoDataFoundException("Точки проката с таким id не существует");
+        }
     }
 
     @Override
     public List<RentalPoint> findAll() {
-        return rentalPointRepository.findAll();
+        List<RentalPoint> rentalPointList = rentalPointRepository.findAll();
+        if (rentalPointList.isEmpty()) {
+            throw new NoDataFoundException("Таблица с точками проката пустая");
+        }
+        return rentalPointList;
     }
 }

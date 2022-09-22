@@ -16,6 +16,6 @@ public interface UserService {
 
     List<User> findAll();
 
-    List<User> findByLastName(String secondName);
+    List<User> findByLastName(String lastName);
 }
 
