@@ -1,6 +1,9 @@
 package valid;
 
-import entity.*;
+
+import entity.RentalPointStatus;
+import entity.ScooterStatus;
+import entity.UserStatus;
 import exceptions.NotAvailableException;
 import repository.OrderRepository;
 

@@ -1,11 +1,11 @@
 package repository.impl;
 
+import annotation.Inject;
 import database.DataBase;
 import database.Queryses;
 import entity.Order;
 import entity.OrderStatus;
 import exceptions.NoDataFoundException;
-import lombok.AllArgsConstructor;
 import repository.OrderRepository;
 import repository.RentalPointRepository;
 import repository.ScooterRepository;
@@ -16,14 +16,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@AllArgsConstructor
+
 public class OrderRepositoryImpl implements OrderRepository {
+    @Inject
     private DataBase dataBase;
-
+    @Inject
     private UserRepository userRepository;
-
+    @Inject
     private ScooterRepository scooterRepository;
-
+    @Inject
     private RentalPointRepository rentalPointRepository;
 
     @Override

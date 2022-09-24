@@ -1,17 +1,18 @@
 package service.impl;
 
+import annotation.Inject;
 import entity.Model;
 import exceptions.NotAvailableException;
-import lombok.AllArgsConstructor;
 import repository.ModelRepository;
 import service.ModelService;
 
 import java.util.List;
 import java.util.Optional;
 
-@AllArgsConstructor
+
 public class ModelServiceImpl implements ModelService {
-    private final ModelRepository modelRepository;
+    @Inject
+    private ModelRepository modelRepository;
 
     @Override
     public void save(Model model) {

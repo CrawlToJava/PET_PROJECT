@@ -1,12 +1,12 @@
 package repository.impl;
 
+import annotation.Inject;
 import database.DataBase;
 import database.Queryses;
 import entity.Sex;
 import entity.User;
 import entity.UserStatus;
 import exceptions.NoDataFoundException;
-import lombok.AllArgsConstructor;
 import repository.UserRepository;
 
 import java.sql.Connection;
@@ -17,8 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@AllArgsConstructor
+
 public class UserRepositoryImpl implements UserRepository {
+    @Inject
     private DataBase dataBase;
 
     @Override

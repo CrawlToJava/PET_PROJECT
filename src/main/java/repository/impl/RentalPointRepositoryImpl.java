@@ -1,11 +1,11 @@
 package repository.impl;
 
+import annotation.Inject;
 import database.DataBase;
 import database.Queryses;
 import entity.RentalPoint;
 import entity.RentalPointStatus;
 import exceptions.NoDataFoundException;
-import lombok.AllArgsConstructor;
 import repository.RentalPointRepository;
 
 import java.sql.Connection;
@@ -16,9 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@AllArgsConstructor
-public class RentalPointRepositoryImpl implements RentalPointRepository {
 
+public class RentalPointRepositoryImpl implements RentalPointRepository {
+    @Inject
     private DataBase dataBase;
 
     @Override

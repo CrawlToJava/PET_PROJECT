@@ -1,10 +1,10 @@
 package repository.impl;
 
+import annotation.Inject;
 import database.DataBase;
 import database.Queryses;
 import entity.Model;
 import exceptions.NoDataFoundException;
-import lombok.AllArgsConstructor;
 import repository.ModelRepository;
 
 import java.sql.Connection;
@@ -15,8 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@AllArgsConstructor
+
+
 public class ModelRepositoryImpl implements ModelRepository {
+    @Inject
     private DataBase dataBase;
 
     @Override

@@ -1,8 +1,8 @@
 package service.impl;
 
+import annotation.Inject;
 import entity.RentalPoint;
 import exceptions.NotAvailableException;
-import lombok.AllArgsConstructor;
 import repository.OrderRepository;
 import repository.RentalPointRepository;
 import repository.ScooterRepository;
@@ -12,15 +12,18 @@ import service.RentalPointService;
 import java.util.List;
 import java.util.Optional;
 
-@AllArgsConstructor
+
 public class RentalPointServiceImpl implements RentalPointService {
-    private final UserRepository userRepository;
+    @Inject
+    private UserRepository userRepository;
 
-    private final ScooterRepository scooterRepository;
+    @Inject
+    private ScooterRepository scooterRepository;
 
-    private final OrderRepository orderRepository;
-
-    private final RentalPointRepository rentalPointRepository;
+    @Inject
+    private OrderRepository orderRepository;
+    @Inject
+    private RentalPointRepository rentalPointRepository;
 
     @Override
     public void save(RentalPoint rentalPoint) {

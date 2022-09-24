@@ -1,8 +1,8 @@
 package service.impl;
 
+import annotation.Inject;
 import entity.User;
 import exceptions.NotAvailableException;
-import lombok.AllArgsConstructor;
 import repository.OrderRepository;
 import repository.RentalPointRepository;
 import repository.ScooterRepository;
@@ -12,15 +12,16 @@ import service.UserService;
 import java.util.List;
 import java.util.Optional;
 
-@AllArgsConstructor
+
 public class UserServiceImpl implements UserService {
-    private final UserRepository userRepository;
-
-    private final ScooterRepository scooterRepository;
-
-    private final OrderRepository orderRepository;
-
-    private final RentalPointRepository rentalPointRepository;
+    @Inject
+    private UserRepository userRepository;
+    @Inject
+    private ScooterRepository scooterRepository;
+    @Inject
+    private OrderRepository orderRepository;
+    @Inject
+    private RentalPointRepository rentalPointRepository;
 
 
     @Override

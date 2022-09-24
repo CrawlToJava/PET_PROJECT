@@ -1,11 +1,11 @@
 package repository.impl;
 
+import annotation.Inject;
 import database.DataBase;
 import database.Queryses;
 import entity.Scooter;
 import entity.ScooterStatus;
 import exceptions.NoDataFoundException;
-import lombok.AllArgsConstructor;
 import repository.ModelRepository;
 import repository.RentalPointRepository;
 import repository.ScooterRepository;
@@ -19,15 +19,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@AllArgsConstructor
+
 public class ScooterRepositoryImpl implements ScooterRepository {
-
+    @Inject
     private DataBase dataBase;
-
+    @Inject
     private UserRepository userRepository;
-
+    @Inject
     private RentalPointRepository rentalPointRepository;
-
+    @Inject
     private ModelRepository modelRepository;
 
 
