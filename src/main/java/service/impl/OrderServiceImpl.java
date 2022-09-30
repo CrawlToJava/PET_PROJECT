@@ -4,10 +4,7 @@ import entity.*;
 import exceptions.NoDataFoundException;
 import exceptions.NotAvailableException;
 import lombok.AllArgsConstructor;
-import repository.OrderRepository;
-import repository.RentalPointRepository;
-import repository.ScooterRepository;
-import repository.UserRepository;
+import repository.JPARepository;
 import service.OrderService;
 import valid.Valid;
 
@@ -19,11 +16,10 @@ import java.util.Optional;
 
 @AllArgsConstructor
 public class OrderServiceImpl implements OrderService {
-
-    private final UserRepository userRepository;
-    private final ScooterRepository scooterRepository;
-    private final OrderRepository orderRepository;
-    private final RentalPointRepository rentalPointRepository;
+    private final JPARepository<User> userRepository;
+    private final JPARepository<Scooter> scooterRepository;
+    private final JPARepository<Order> orderRepository;
+    private final JPARepository<RentalPoint> rentalPointRepository;
 
     @Override
     public void startRent(Long scootersId, Long ordersId, Long userId, Long rentalPointsId) {

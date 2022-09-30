@@ -5,7 +5,7 @@ import database.Queryses;
 import entity.Model;
 import exceptions.NoDataFoundException;
 import lombok.AllArgsConstructor;
-import repository.ModelRepository;
+import repository.JPARepository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @AllArgsConstructor
-public class ModelRepositoryImpl implements ModelRepository {
+public class ModelRepositoryImpl implements JPARepository<Model> {
     private DataBase dataBase;
 
     @Override

@@ -1,12 +1,12 @@
 package service.impl;
 
+import entity.Order;
+import entity.RentalPoint;
+import entity.Scooter;
 import entity.User;
 import exceptions.NotAvailableException;
 import lombok.AllArgsConstructor;
-import repository.OrderRepository;
-import repository.RentalPointRepository;
-import repository.ScooterRepository;
-import repository.UserRepository;
+import repository.JPARepository;
 import service.UserService;
 
 import java.util.List;
@@ -14,14 +14,13 @@ import java.util.Optional;
 
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
-    private final UserRepository userRepository;
+    private final JPARepository<User> userRepository;
 
-    private final ScooterRepository scooterRepository;
+    private final JPARepository<Scooter> scooterRepository;
 
-    private final OrderRepository orderRepository;
+    private final JPARepository<Order> orderRepository;
 
-    private final RentalPointRepository rentalPointRepository;
-
+    private final JPARepository<RentalPoint> rentalPointRepository;
 
     @Override
     public void save(User user) {
@@ -63,8 +62,8 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll();
     }
 
-    @Override
+    /*@Override
     public List<User> findByLastName(String secondName) {
         return userRepository.findBySecondName(secondName);
-    }
+    }*/
 }

@@ -22,5 +22,4 @@ public class Scooter {
     private ScooterStatus scooterStatus;
 
     private User user;
-
 }

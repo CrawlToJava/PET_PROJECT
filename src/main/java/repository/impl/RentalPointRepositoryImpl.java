@@ -6,7 +6,7 @@ import entity.RentalPoint;
 import entity.RentalPointStatus;
 import exceptions.NoDataFoundException;
 import lombok.AllArgsConstructor;
-import repository.RentalPointRepository;
+import repository.JPARepository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @AllArgsConstructor
-public class RentalPointRepositoryImpl implements RentalPointRepository {
+public class RentalPointRepositoryImpl implements JPARepository<RentalPoint> {
 
     private DataBase dataBase;
 

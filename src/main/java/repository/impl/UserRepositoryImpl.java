@@ -7,7 +7,7 @@ import entity.User;
 import entity.UserStatus;
 import exceptions.NoDataFoundException;
 import lombok.AllArgsConstructor;
-import repository.UserRepository;
+import repository.JPARepository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @AllArgsConstructor
-public class UserRepositoryImpl implements UserRepository {
+public class UserRepositoryImpl implements JPARepository<User> {
     private DataBase dataBase;
 
     @Override
@@ -90,7 +90,7 @@ public class UserRepositoryImpl implements UserRepository {
         throw new NoDataFoundException("В базе данных нет пользователей");
     }
 
-    @Override
+    /*@Override
     public List<User> findBySecondName(String lastName) {
         List<User> list = new ArrayList<>();
         Connection postgres = dataBase.connection();
@@ -105,7 +105,7 @@ public class UserRepositoryImpl implements UserRepository {
             e.printStackTrace();
         }
         throw new NoDataFoundException("Пользователей с такой фамилией нет в базе данных");
-    }
+    }*/
 
     private User createUserFromResultSet(ResultSet resultSet) throws SQLException {
         User user = new User();

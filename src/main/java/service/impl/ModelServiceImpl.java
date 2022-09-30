@@ -3,7 +3,7 @@ package service.impl;
 import entity.Model;
 import exceptions.NotAvailableException;
 import lombok.AllArgsConstructor;
-import repository.ModelRepository;
+import repository.JPARepository;
 import service.ModelService;
 
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @AllArgsConstructor
 public class ModelServiceImpl implements ModelService {
-    private final ModelRepository modelRepository;
+    private final JPARepository<Model> modelRepository;
 
     @Override
     public void save(Model model) {

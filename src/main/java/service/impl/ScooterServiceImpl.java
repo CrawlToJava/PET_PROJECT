@@ -1,12 +1,11 @@
 package service.impl;
 
+import entity.RentalPoint;
 import entity.Scooter;
+import entity.User;
 import exceptions.NotAvailableException;
 import lombok.AllArgsConstructor;
-import repository.OrderRepository;
-import repository.RentalPointRepository;
-import repository.ScooterRepository;
-import repository.UserRepository;
+import repository.JPARepository;
 import service.ScooterService;
 
 import java.util.List;
@@ -14,13 +13,11 @@ import java.util.Optional;
 
 @AllArgsConstructor
 public class ScooterServiceImpl implements ScooterService {
-    private final UserRepository userRepository;
+    private final JPARepository<Scooter> scooterRepository;
 
-    private final ScooterRepository scooterRepository;
+    private final JPARepository<User> userRepository;
 
-    private final OrderRepository orderRepository;
-
-    private final RentalPointRepository rentalPointRepository;
+    private final JPARepository<RentalPoint> rentalPointRepository;
 
     @Override
     public void save(Scooter scooter) {
