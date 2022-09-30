@@ -3,7 +3,6 @@ package service.impl;
 import entity.Scooter;
 import exceptions.NotAvailableException;
 import lombok.AllArgsConstructor;
-import repository.OrderRepository;
 import repository.RentalPointRepository;
 import repository.ScooterRepository;
 import repository.UserRepository;
@@ -14,11 +13,9 @@ import java.util.Optional;
 
 @AllArgsConstructor
 public class ScooterServiceImpl implements ScooterService {
-    private final UserRepository userRepository;
-
     private final ScooterRepository scooterRepository;
 
-    private final OrderRepository orderRepository;
+    private final UserRepository userRepository;
 
     private final RentalPointRepository rentalPointRepository;
 

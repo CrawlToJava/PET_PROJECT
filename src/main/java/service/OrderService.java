@@ -1,27 +1,15 @@
 package service;
 
-import entity.Order;
+import repository.OrderRepository;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
 
-public interface OrderService {
+public interface OrderService extends OrderRepository {
 
     void startRent(Long scootersId, Long ordersId, Long userId, Long rentalPointsId);
 
     void finishRent(Long scootersId, Long ordersId);
 
     BigDecimal countOrderPrice(LocalDateTime orderedAt, LocalDateTime finishedAt, BigDecimal price);
-
-    void save(Order order);
-
-    void delete(Long id);
-
-    void update(Order order);
-
-    Optional<Order> findById(Long id);
-
-    List<Order> findAll();
 }

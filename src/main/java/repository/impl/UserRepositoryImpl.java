@@ -90,22 +90,8 @@ public class UserRepositoryImpl implements UserRepository {
         throw new NoDataFoundException("В базе данных нет пользователей");
     }
 
-    @Override
-    public List<User> findBySecondName(String lastName) {
-        List<User> list = new ArrayList<>();
-        Connection postgres = dataBase.connection();
-        try (PreparedStatement statement = postgres.prepareStatement(Queryses.FIND_USER_BY_LAST_NAME)) {
-            statement.setString(1, lastName);
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                list.add(createUserFromResultSet(resultSet));
-            }
-            return list;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        throw new NoDataFoundException("Пользователей с такой фамилией нет в базе данных");
-    }
+
+
 
     private User createUserFromResultSet(ResultSet resultSet) throws SQLException {
         User user = new User();
@@ -125,5 +111,22 @@ public class UserRepositoryImpl implements UserRepository {
         statement.setInt(4, Math.toIntExact(user.getAge()));
         statement.setString(5, String.valueOf(user.getSex()).toUpperCase());
         statement.setString(6, String.valueOf(user.getUserStatus()).toUpperCase());
+    }
+
+    @Override
+    public List<User> findByLastName(String lastName) {
+        List<User> list = new ArrayList<>();
+        Connection postgres = dataBase.connection();
+        try (PreparedStatement statement = postgres.prepareStatement(Queryses.FIND_USER_BY_LAST_NAME)) {
+            statement.setString(1, lastName);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                list.add(createUserFromResultSet(resultSet));
+            }
+            return list;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        throw new NoDataFoundException("Пользователей с такой фамилией нет в базе данных");
     }
 }

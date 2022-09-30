@@ -20,7 +20,6 @@ public class User {
     private Sex sex;
 
     private UserStatus userStatus;
-
 }
 
 

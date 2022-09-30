@@ -4,10 +4,7 @@ import entity.*;
 import exceptions.NoDataFoundException;
 import exceptions.NotAvailableException;
 import lombok.AllArgsConstructor;
-import repository.OrderRepository;
-import repository.RentalPointRepository;
-import repository.ScooterRepository;
-import repository.UserRepository;
+import repository.*;
 import service.OrderService;
 import valid.Valid;
 
@@ -19,7 +16,6 @@ import java.util.Optional;
 
 @AllArgsConstructor
 public class OrderServiceImpl implements OrderService {
-
     private final UserRepository userRepository;
     private final ScooterRepository scooterRepository;
     private final OrderRepository orderRepository;

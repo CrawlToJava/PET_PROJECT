@@ -2,7 +2,7 @@ package valid;
 
 import entity.*;
 import exceptions.NotAvailableException;
-import repository.OrderRepository;
+import repository.JPARepository;
 
 public class Valid {
     public static void isRentAvailable(ScooterStatus status, UserStatus userStatus, RentalPointStatus rentalPointStatus) {
@@ -13,8 +13,8 @@ public class Valid {
         }
     }
 
-    public static void isOrderPresent(Long ordersId, OrderRepository orderRepository) {
-        if (orderRepository.findById(ordersId).isPresent()) {
+    public static void isOrderPresent(Long ordersId, JPARepository JPARepository) {
+        if (JPARepository.findById(ordersId).isPresent()) {
             throw new NotAvailableException("Заказ с таким id уже существует");
         }
     }

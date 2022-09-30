@@ -22,7 +22,6 @@ public class UserServiceImpl implements UserService {
 
     private final RentalPointRepository rentalPointRepository;
 
-
     @Override
     public void save(User user) {
         Optional<User> userFromDataBase = userRepository.findById(user.getId());
@@ -64,7 +63,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findByLastName(String secondName) {
-        return userRepository.findBySecondName(secondName);
+    public List<User> findByLastName(String lastName) {
+        return userRepository.findByLastName(lastName);
     }
 }

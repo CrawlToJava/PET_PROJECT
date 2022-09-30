@@ -2,14 +2,11 @@ package repository.impl;
 
 import database.DataBase;
 import database.Queryses;
-import entity.Scooter;
-import entity.ScooterStatus;
+import entity.*;
 import exceptions.NoDataFoundException;
 import lombok.AllArgsConstructor;
-import repository.ModelRepository;
-import repository.RentalPointRepository;
+import repository.JPARepository;
 import repository.ScooterRepository;
-import repository.UserRepository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -24,11 +21,11 @@ public class ScooterRepositoryImpl implements ScooterRepository {
 
     private DataBase dataBase;
 
-    private UserRepository userRepository;
+    private JPARepository<User> userJPARepository;
 
-    private RentalPointRepository rentalPointRepository;
+    private JPARepository<RentalPoint> rentalPointJPARepository;
 
-    private ModelRepository modelRepository;
+    private JPARepository<Model> modelJPARepository;
 
 
     @Override
@@ -115,9 +112,9 @@ public class ScooterRepositoryImpl implements ScooterRepository {
         scooter.setId(resultSet.getLong("id"));
         scooter.setPrice(resultSet.getBigDecimal("price"));
         scooter.setScooterStatus(ScooterStatus.valueOf(resultSet.getString("scooter_status").toUpperCase()));
-        scooter.setRentalPoint(rentalPointRepository.findById(resultSet.getLong("rental_point_id")).orElseThrow(() -> new NoDataFoundException("Точка проката не найдена")));
-        scooter.setUser(userRepository.findById(resultSet.getLong("user_id")).orElseThrow(() -> new NoDataFoundException("Пользователь не найден")));
-        scooter.setModel(modelRepository.findById(resultSet.getLong("model_id")).orElseThrow(() -> new NoDataFoundException("Модель электросамоката не найдена")));
+        scooter.setRentalPoint(rentalPointJPARepository.findById(resultSet.getLong("rental_point_id")).orElseThrow(() -> new NoDataFoundException("Точка проката не найдена")));
+        scooter.setUser(userJPARepository.findById(resultSet.getLong("user_id")).orElseThrow(() -> new NoDataFoundException("Пользователь не найден")));
+        scooter.setModel(modelJPARepository.findById(resultSet.getLong("model_id")).orElseThrow(() -> new NoDataFoundException("Модель электросамоката не найдена")));
         return scooter;
     }
 }
