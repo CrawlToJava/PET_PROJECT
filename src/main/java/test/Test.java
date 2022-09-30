@@ -1,6 +1,7 @@
 package test;
 
 import database.DataBase;
+import entity.User;
 import repository.*;
 import repository.impl.*;
 import service.*;
@@ -8,6 +9,7 @@ import service.impl.*;
 
 public class Test {
     public static void main(String[] args) {
+        User user = new User();
         DataBase dataBase = new DataBase();
         UserRepository userJPARepository = new UserRepositoryImpl(dataBase);
         ModelRepository modelJPARepository = new ModelRepositoryImpl(dataBase);
