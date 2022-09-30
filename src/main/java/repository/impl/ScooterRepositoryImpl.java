@@ -5,8 +5,7 @@ import database.Queryses;
 import entity.*;
 import exceptions.NoDataFoundException;
 import lombok.AllArgsConstructor;
-import repository.JPARepository;
-import repository.ScooterRepository;
+import repository.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,11 +20,11 @@ public class ScooterRepositoryImpl implements ScooterRepository {
 
     private DataBase dataBase;
 
-    private JPARepository<User> userJPARepository;
+    private UserRepository userRepository;
 
-    private JPARepository<RentalPoint> rentalPointJPARepository;
+    private RentalPointRepository rentalPointRepository;
 
-    private JPARepository<Model> modelJPARepository;
+    private ModelRepository modelRepository;
 
 
     @Override
@@ -112,9 +111,9 @@ public class ScooterRepositoryImpl implements ScooterRepository {
         scooter.setId(resultSet.getLong("id"));
         scooter.setPrice(resultSet.getBigDecimal("price"));
         scooter.setScooterStatus(ScooterStatus.valueOf(resultSet.getString("scooter_status").toUpperCase()));
-        scooter.setRentalPoint(rentalPointJPARepository.findById(resultSet.getLong("rental_point_id")).orElseThrow(() -> new NoDataFoundException("Точка проката не найдена")));
-        scooter.setUser(userJPARepository.findById(resultSet.getLong("user_id")).orElseThrow(() -> new NoDataFoundException("Пользователь не найден")));
-        scooter.setModel(modelJPARepository.findById(resultSet.getLong("model_id")).orElseThrow(() -> new NoDataFoundException("Модель электросамоката не найдена")));
+        scooter.setRentalPoint(rentalPointRepository.findById(resultSet.getLong("rental_point_id")).orElseThrow(() -> new NoDataFoundException("Точка проката не найдена")));
+        scooter.setUser(userRepository.findById(resultSet.getLong("user_id")).orElseThrow(() -> new NoDataFoundException("Пользователь не найден")));
+        scooter.setModel(modelRepository.findById(resultSet.getLong("model_id")).orElseThrow(() -> new NoDataFoundException("Модель электросамоката не найдена")));
         return scooter;
     }
 }

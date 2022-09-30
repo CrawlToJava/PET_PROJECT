@@ -1,7 +1,7 @@
 package service;
 
-import repository.ModeRepository;
+import repository.ModelRepository;
 
-public interface ModelService extends ModeRepository {
+public interface ModelService extends ModelRepository {
 
 }

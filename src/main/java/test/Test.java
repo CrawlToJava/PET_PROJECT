@@ -10,7 +10,7 @@ public class Test {
     public static void main(String[] args) {
         DataBase dataBase = new DataBase();
         UserRepository userJPARepository = new UserRepositoryImpl(dataBase);
-        ModeRepository modelJPARepository = new ModelRepositoryImpl(dataBase);
+        ModelRepository modelJPARepository = new ModelRepositoryImpl(dataBase);
         RentalPointRepository rentalPointJPARepository = new RentalPointRepositoryImpl(dataBase);
         ScooterRepository scooterJPARepository = new ScooterRepositoryImpl(dataBase, userJPARepository, rentalPointJPARepository, modelJPARepository);
         OrderRepository orderRepository= new OrderRepositoryImpl(dataBase, userJPARepository, scooterJPARepository, rentalPointJPARepository);

@@ -5,8 +5,7 @@ import database.Queryses;
 import entity.*;
 import exceptions.NoDataFoundException;
 import lombok.AllArgsConstructor;
-import repository.JPARepository;
-import repository.OrderRepository;
+import repository.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -17,11 +16,11 @@ import java.util.Optional;
 public class OrderRepositoryImpl implements OrderRepository {
     private DataBase dataBase;
 
-    private JPARepository<User> userJPARepository;
+    private UserRepository userRepository;
 
-    private JPARepository<Scooter> scooterJPARepository;
+    private ScooterRepository scooterRepository;
 
-    private JPARepository<RentalPoint> rentalPointJPARepository;
+    private RentalPointRepository rentalPointRepository;
 
     @Override
     public void save(Order order) {
@@ -102,9 +101,9 @@ public class OrderRepositoryImpl implements OrderRepository {
         order.setFinishedAt(resultSet.getTimestamp("finished_at").toLocalDateTime());
         order.setTotalPrice(resultSet.getBigDecimal("total_price"));
         order.setOrderStatus(OrderStatus.valueOf(resultSet.getString("order_status").toUpperCase()));
-        order.setUser(userJPARepository.findById(resultSet.getLong("user_id")).orElseThrow(() -> new NoDataFoundException("Пользователь не найден")));
-        order.setScooter(scooterJPARepository.findById(resultSet.getLong("scooter_id")).orElseThrow(() -> new NoDataFoundException("Самокат не найден")));
-        order.setRentalPoint(rentalPointJPARepository.findById(resultSet.getLong("rental_point_id")).orElseThrow(() -> new NoDataFoundException("Точка проката не найдена")));
+        order.setUser(userRepository.findById(resultSet.getLong("user_id")).orElseThrow(() -> new NoDataFoundException("Пользователь не найден")));
+        order.setScooter(scooterRepository.findById(resultSet.getLong("scooter_id")).orElseThrow(() -> new NoDataFoundException("Самокат не найден")));
+        order.setRentalPoint(rentalPointRepository.findById(resultSet.getLong("rental_point_id")).orElseThrow(() -> new NoDataFoundException("Точка проката не найдена")));
         return order;
     }
 
