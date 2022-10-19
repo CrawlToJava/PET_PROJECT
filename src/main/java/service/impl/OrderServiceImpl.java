@@ -1,8 +1,7 @@
 package service.impl;
 
 import entity.*;
-import exceptions.NoDataFoundException;
-import exceptions.NotAvailableException;
+import exception.NoDataFoundException;
 import lombok.AllArgsConstructor;
 import repository.OrderRepository;
 import repository.RentalPointRepository;
@@ -33,7 +32,7 @@ public class OrderServiceImpl implements OrderService {
         Valid.isRentAvailable(scooter.getScooterStatus(), user.getUserStatus(), rentalPoint.getRentalPointsStatus());
         Valid.isOrderPresent(ordersId, orderRepository);
         scooterRepository.update(new Scooter(scootersId, scooter.getPrice(), rentalPoint, scooter.getModel(), ScooterStatus.BOOKED, user));
-        orderRepository.save(new Order(ordersId, LocalDateTime.now(), LocalDateTime.now(), null, OrderStatus.OPEN, user, scooter, rentalPoint)); //TODO как передать времени завершения null
+        orderRepository.save(new Order(ordersId, LocalDateTime.now(), LocalDateTime.now(), null, OrderStatus.OPEN, user, scooter, rentalPoint));
     }
 
     @Override
@@ -53,42 +52,24 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void save(Order order) {
-        Optional<Order> orderFromDataBase = orderRepository.findById(order.getId());
-        if (orderFromDataBase.isEmpty()) {
-            orderRepository.save(order);
-        } else {
-            throw new NotAvailableException("Заказ с таким id уже есть");
-        }
+        orderRepository.save(order);
     }
 
     @Override
     public void delete(Long id) {
-        Optional<Order> orderFromDataBase = orderRepository.findById(id);
-        if (orderFromDataBase.isPresent()) {
-            orderRepository.delete(id);
-        } else {
-            throw new NotAvailableException("Заказа с таким id не сущестует");
-        }
+        orderRepository.findById(id).orElseThrow(() -> new NoDataFoundException("Заказа с таким id не существует"));
+        orderRepository.delete(id);
     }
 
     @Override
     public void update(Order order) {
-        Optional<Order> orderFromDataBase = orderRepository.findById(order.getId());
-        if (orderFromDataBase.isPresent()) {
-            orderRepository.update(order);
-        } else {
-            throw new NotAvailableException("Заказа с таким id не сущестует");
-        }
+        orderRepository.findById(order.getId()).orElseThrow(() -> new NoDataFoundException("Заказа с таким id не существует"));
+        orderRepository.update(order);
     }
 
     @Override
     public Optional<Order> findById(Long id) {
-        Optional<Order> order = orderRepository.findById(id);
-        if (order.isPresent()) {
-            return order;
-        } else {
-            throw new NoDataFoundException("Заказа с таким id не существует");
-        }
+        return Optional.ofNullable(orderRepository.findById(id).orElseThrow(() -> new NoDataFoundException("Заказа с таким id не сущестует")));
     }
 
     @Override

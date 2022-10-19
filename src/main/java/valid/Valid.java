@@ -1,7 +1,7 @@
 package valid;
 
 import entity.*;
-import exceptions.NotAvailableException;
+import exception.NotAvailableException;
 import repository.OrderRepository;
 
 public class Valid {

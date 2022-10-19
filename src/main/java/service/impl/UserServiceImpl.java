@@ -1,12 +1,8 @@
 package service.impl;
 
 import entity.User;
-import exceptions.NoDataFoundException;
-import exceptions.NotAvailableException;
+import exception.NoDataFoundException;
 import lombok.AllArgsConstructor;
-import repository.OrderRepository;
-import repository.RentalPointRepository;
-import repository.ScooterRepository;
 import repository.UserRepository;
 import service.UserService;
 
@@ -17,51 +13,26 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
-    private final ScooterRepository scooterRepository;
-
-    private final OrderRepository orderRepository;
-
-    private final RentalPointRepository rentalPointRepository;
-
-
     @Override
     public void save(User user) {
-        Optional<User> userFromDataBase = userRepository.findById(user.getId());
-        if (userFromDataBase.isEmpty()) {
-            userRepository.save(user);
-        } else {
-            throw new NotAvailableException("Пользователь с таким id уже есть");
-        }
+        userRepository.save(user);
     }
 
     @Override
     public void delete(Long id) {
-        Optional<User> user = userRepository.findById(id);
-        if (user.isPresent()) {
-            userRepository.delete(id);
-        } else {
-            throw new NoDataFoundException("Пользователя с таким id не сущестует");
-        }
+        userRepository.findById(id).orElseThrow(() -> new NoDataFoundException("Пользователя с таким id не сущестует"));
+        userRepository.delete(id);
     }
 
     @Override
     public void update(User user) {
-        Optional<User> userFromDataBase = userRepository.findById(user.getId());
-        if (userFromDataBase.isPresent()) {
-            userRepository.update(user);
-        } else {
-            throw new NotAvailableException("Пользователя с таким id не сущестует");
-        }
+        userRepository.findById(user.getId()).orElseThrow(() -> new NoDataFoundException("Пользователя с таким id не сущестует"));
+        userRepository.update(user);
     }
 
     @Override
     public Optional<User> findById(Long id) {
-        Optional<User> user = userRepository.findById(id);
-        if (user.isPresent()) {
-            return user;
-        } else {
-            throw new NoDataFoundException("Пользователя с таким id не существует");
-        }
+        return Optional.ofNullable(userRepository.findById(id).orElseThrow(() -> new NoDataFoundException("Пользователя с таким id не сущестует")));
     }
 
     @Override

@@ -12,9 +12,8 @@ import lombok.*;
 @Table(name = "models")
 public class Model {
     @Id
-    @SequenceGenerator(name = "model_seq", sequenceName = " common_sequence ")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "model_seq")
-    @Column(name = "id", updatable = false)
+    @GeneratedValue(generator = "model_generator", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "model_generator", sequenceName = "models_seq", allocationSize = 1)
     private Long id;
 
     @Column(name = "brand")
@@ -34,4 +33,13 @@ public class Model {
 
     @Column(name = "power")
     private double power;
+
+    public Model(String brand, String model, int year, double maxLoad, double range, double power) {
+        this.brand = brand;
+        this.model = model;
+        this.year = year;
+        this.maxLoad = maxLoad;
+        this.range = range;
+        this.power = power;
+    }
 }
