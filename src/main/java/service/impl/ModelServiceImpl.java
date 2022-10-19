@@ -1,6 +1,7 @@
 package service.impl;
 
 import entity.Model;
+import exceptions.NoDataFoundException;
 import exceptions.NotAvailableException;
 import lombok.AllArgsConstructor;
 import repository.ModelRepository;
@@ -25,8 +26,8 @@ public class ModelServiceImpl implements ModelService {
 
     @Override
     public void delete(Long id) {
-        Optional<Model> modelFromDataBase = modelRepository.findById(id);
-        if (modelFromDataBase.isPresent()) {
+        Optional<Model> model = modelRepository.findById(id);
+        if (model.isPresent()) {
             modelRepository.delete(id);
         } else {
             throw new NotAvailableException("Модели самоката с таким id не сущестует");
@@ -35,16 +36,30 @@ public class ModelServiceImpl implements ModelService {
 
     @Override
     public void update(Model model) {
-        modelRepository.update(model);
+        Optional<Model> modelFromDataBase = modelRepository.findById(model.getId());
+        if (modelFromDataBase.isPresent()) {
+            modelRepository.update(model);
+        } else {
+            throw new NotAvailableException("Модели самоката с таким id не сущестует");
+        }
     }
 
     @Override
     public Optional<Model> findById(Long id) {
-        return modelRepository.findById(id);
+        Optional<Model> model = modelRepository.findById(id);
+        if (model.isPresent()) {
+            return model;
+        } else {
+            throw new NoDataFoundException("Модели самоката с таким id не существует");
+        }
     }
 
     @Override
     public List<Model> findAll() {
-        return modelRepository.findAll();
+        List<Model> modelList = modelRepository.findAll();
+        if (modelList.isEmpty()) {
+            throw new NoDataFoundException("Таблица с моделями самоката пустая");
+        }
+        return modelList;
     }
 }

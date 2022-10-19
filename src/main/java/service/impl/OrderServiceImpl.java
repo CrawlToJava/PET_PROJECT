@@ -73,16 +73,30 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void update(Order order) {
-        orderRepository.update(order);
+        Optional<Order> orderFromDataBase = orderRepository.findById(order.getId());
+        if (orderFromDataBase.isPresent()) {
+            orderRepository.update(order);
+        } else {
+            throw new NotAvailableException("Заказа с таким id не сущестует");
+        }
     }
 
     @Override
     public Optional<Order> findById(Long id) {
-        return orderRepository.findById(id);
+        Optional<Order> order = orderRepository.findById(id);
+        if (order.isPresent()) {
+            return order;
+        } else {
+            throw new NoDataFoundException("Заказа с таким id не существует");
+        }
     }
 
     @Override
     public List<Order> findAll() {
-        return orderRepository.findAll();
+        List<Order> orderList = orderRepository.findAll();
+        if (orderList.isEmpty()) {
+            throw new NoDataFoundException("Таблица с заказами пустая");
+        }
+        return orderList;
     }
 }

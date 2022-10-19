@@ -2,7 +2,6 @@ package repository;
 
 import entity.Scooter;
 
-
 import java.util.List;
 import java.util.Optional;
 
