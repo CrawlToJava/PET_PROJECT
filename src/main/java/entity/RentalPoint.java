@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -14,9 +15,8 @@ import lombok.Setter;
 @Table(name = "rental_points")
 public class RentalPoint {
     @Id
-    @SequenceGenerator(name = "rental_point_seq", sequenceName = " common_sequence ")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rental_point_seq")
-    @Column(name = "id", updatable = false)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rental_point_generator")
+    @SequenceGenerator(name = "rental_point_generator", sequenceName = "rental_points_seq", allocationSize = 1)
     private Long id;
 
     @Column(name = "location")
@@ -25,4 +25,9 @@ public class RentalPoint {
     @Enumerated(EnumType.STRING)
     @Column(name = "rental_point_status")
     private RentalPointStatus rentalPointsStatus;
+
+    public RentalPoint(String location, RentalPointStatus rentalPointsStatus) {
+        this.location = location;
+        this.rentalPointsStatus = rentalPointsStatus;
+    }
 }

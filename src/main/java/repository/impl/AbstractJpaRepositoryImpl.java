@@ -1,7 +1,7 @@
 package repository.impl;
 
 import config.DataBase;
-import exceptions.NoDataFoundException;
+import exception.NoDataFoundException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import repository.AbstractJpaRepository;

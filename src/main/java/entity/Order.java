@@ -18,9 +18,8 @@ import java.time.LocalDateTime;
 @Table(name = "orders")
 public class Order {
     @Id
-    @SequenceGenerator(name = "order_seq", sequenceName = " common_sequence ")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_seq")
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_generator")
+    @SequenceGenerator(name = "order_generator", sequenceName = "orders_seq", allocationSize = 1)
     private Long id;
 
     @Column(name = "ordered_at")
@@ -47,4 +46,14 @@ public class Order {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "rental_point_id", referencedColumnName = "id")
     private RentalPoint rentalPoint;
+
+    public Order(LocalDateTime orderedAt, LocalDateTime finishedAt, BigDecimal totalPrice, OrderStatus orderStatus, User user, Scooter scooter, RentalPoint rentalPoint) {
+        this.orderedAt = orderedAt;
+        this.finishedAt = finishedAt;
+        this.totalPrice = totalPrice;
+        this.orderStatus = orderStatus;
+        this.user = user;
+        this.scooter = scooter;
+        this.rentalPoint = rentalPoint;
+    }
 }

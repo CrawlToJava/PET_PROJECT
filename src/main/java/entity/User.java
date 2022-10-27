@@ -11,9 +11,8 @@ import lombok.*;
 @Table(name = "users")
 public class User {
     @Id
-    @SequenceGenerator(name = "user_seq", sequenceName = " common_sequence ")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
-    @Column(name = "id", updatable = false)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_generator")
+    @SequenceGenerator(name = "user_generator", sequenceName = "users_seq", allocationSize = 1)
     private Long id;
 
     @Column(name = "first_name")
@@ -32,6 +31,14 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private UserStatus userStatus;
+
+    public User(String firstName, String lastName, int age, Sex sex, UserStatus userStatus) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+        this.sex = sex;
+        this.userStatus = userStatus;
+    }
 }
 
 
